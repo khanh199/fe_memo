@@ -1,26 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import './App.scss';
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import routers from './routers'
+import fakeAuth from './auth'
 
-function App() {
+
+function PrivateRoute({ component: Component, ...rest }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Route
+      {...rest}
+      render={props =>
+        fakeAuth.isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: props.location }
+              }}
+            />
+          )
+      }
+    />
   );
+}
+
+class App extends Component {
+
+  _showPages = (routers) => {
+    var result = null;
+    if (routers.length > 0) {
+      result = routers.map((router, index) => {
+        if (router.private)
+          return (
+            <PrivateRoute
+              key={index}
+              path={router.path}
+              exact={router.exact}
+              component={router.main}
+            />
+          )
+        return (
+          <Route
+            key={index}
+            path={router.path}
+            exact={router.exact}
+            component={router.main}
+          />
+        )
+      });
+    }
+    return <Switch>{result}</Switch>
+  }
+  render() {
+    return (
+      <Router>
+        {this._showPages(routers)}
+      </Router>
+    );
+  }
+
 }
 
 export default App;
