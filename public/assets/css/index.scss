@@ -7,6 +7,60 @@
   grid-template-columns: 269px auto;
   font-family: $FuturaPT;
 
+  .popup{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 1, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    &__box {
+      padding: 20px 30px;
+      width: 390px;
+      height: 210px;
+      background: white;
+      border-radius: 10px ;
+      box-shadow: 0 12px 15px 0 rgba(0,0,0,0.24);
+
+      &__title {
+        font-size: 18px;
+        height: 60px;
+      }
+      &__text-input {
+        margin-bottom: 44px;
+        input {
+          border: none;
+          border-bottom: 2px solid rgba(222, 222, 222, 0.5);
+          width: 100%;
+          font-size: 20px;
+          &:focus {
+            border-bottom: 2px solid rgba(27, 103, 153, 1);
+          }
+        }
+      }
+      &__control {
+        display: flex;
+        justify-content: flex-end;
+        &>div {
+          margin: 3px;
+          width: 81px;
+          height: 36px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          color: rgb(41, 47, 59);
+          &:hover {
+            background: rgba(222, 222, 222, 0.8);
+          }
+          
+        }
+      }
+    }
+  }
+
   .menu-area {
     // position: absolute;
     width: 100%;

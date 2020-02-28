@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { actGetNotesRequest } from '../actions/index'
+import { actGetNotesRequest, actSetNoteIndex } from '../actions/index'
 import moment from 'moment'
 
 class MemoList extends Component {
@@ -8,31 +8,58 @@ class MemoList extends Component {
         this.props.getNotes()
     }
 
-    _showMemoItem = (list) => {
-        return list.map((item, index) => {
-            return (
-                <div key={index} className={`memo-item ${index==0?'active':''} ${item.clip ? 'clip':''}`}>
-                    <p className="memo-item__title">{item.title}</p>
-                    <div className="memo-item__info">
-                        <p className="memo-item__info--clock">
-                            <img src="./assets/images/clock-regular.svg" alt="clock" />
-                            <span>{moment(item.createDate).format("YYYY/MM/DD")}</span>
-                        </p>
-                        <p className="memo-item__info--cate">
-                            <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
-                            <span>Category 01</span>
-                        </p>
-                    </div>
-                    <div className="clip-memo-item">
-                        <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
-                    </div>
-                </div>
-            )
-        })
+    _showMemoItem = (list, idCate) => {
+        if (list.length > 0)
+            return list.map((item, index) => {
+                if (idCate === 'clip' && item.clip===true)
+                    return (
+                        <div key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item  ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
+                            <p className="memo-item__title">{item.title}</p>
+                            <div className="memo-item__info">
+                                <p className="memo-item__info--clock">
+                                    <img src="./assets/images/clock-regular.svg" alt="clock" />
+                                    <span>{moment(item.createDate).format("YYYY/MM/DD")}</span>
+                                </p>
+                                <p className="memo-item__info--cate">
+                                    <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
+                                    <span>Category 01</span>
+                                </p>
+                            </div>
+                            <div className="clip-memo-item">
+                                <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
+                            </div>
+                        </div>
+                    )
+                else if (idCate === 0 || item.category && item.category._id === idCate)
+                    return (
+                        <div key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item  ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
+                            <p className="memo-item__title">{item.title}</p>
+                            <div className="memo-item__info">
+                                <p className="memo-item__info--clock">
+                                    <img src="./assets/images/clock-regular.svg" alt="clock" />
+                                    <span>{moment(item.createDate).format("YYYY/MM/DD")}</span>
+                                </p>
+                                <p className="memo-item__info--cate">
+                                    <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
+                                    <span>Category 01</span>
+                                </p>
+                            </div>
+                            <div className="clip-memo-item">
+                                <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
+                            </div>
+                        </div>
+                    )
+                else return null
+            })
+        return null
+    }
+    _onChooseMemo = (id) => {
+        this.props.changeNoteIndex(id)
     }
 
     render() {
-        let lsNotes=this.props.notes;
+        let lsNotes = this.props.notes;
+        let categoryIndex = this.props.categoryIndex
         return (
             <div className="title-area">
                 <div className="search-box">
@@ -43,8 +70,8 @@ class MemoList extends Component {
                     <span>Title</span> <img src="./assets/images/sort-amount-up-alt-solid.svg" alt="sort-amount-up-alt-solid" />
                 </div>
                 <div className="memo-list">
-                    {this._showMemoItem(lsNotes)}
-                    
+                    {this._showMemoItem(lsNotes, categoryIndex)}
+
                 </div>
             </div>
 
@@ -56,13 +83,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getNotes: () => {
             dispatch(actGetNotesRequest())
+        },
+        changeNoteIndex: (id) => {
+            dispatch(actSetNoteIndex(id))
         }
     }
 }
 const mapStateToProps = (state, ownProps) => {
     return {
         notes: state.notes,
-        noteIndex : state.noteIndex
+        noteIndex: state.noteIndex,
+        categoryIndex: state.categoryIndex
     }
 }
 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { actSetAuthFalse, actGetCategoriesRequest } from '../actions/index'
+import { actSetAuthFalse, actGetCategoriesRequest, actSetCategoryIndex } from '../actions/index'
 import { Redirect } from 'react-router-dom'
-
-
 
 class Navi extends Component {
     constructor(props) {
@@ -18,24 +16,28 @@ class Navi extends Component {
     }
 
     _showCategories = (list) => {
-        return list.map((item,index )=> <div key={index} className="category-item">
-            <img src="./assets/images/tags-item.svg" alt="item" />
-            <p>{item.name}</p>
-            <div className="quantity">
-                10
-        </div>
-        </div>)
+        let notes = this.props.notes
+        return list.map((item, index) => (
+            <div
+                onClick={() => this.props.setCategoryIndex(item._id)} key={index}
+                className={`${item._id === this.props.categoryIndex ? 'active' : ''} category-item`}
+            >
+                <img src="./assets/images/tags-item.svg" alt="item" />
+                <p>{item.name}</p>
+                <div className="quantity">
+                    {notes.filter(x => x.category && x.category._id === item._id).length}
+                </div>
+            </div>)
+        )
     }
 
 
     render() {
+        let notes = this.props.notes
         if (this.state.redirectPage === true)
             return <Redirect to='/login' />
 
         let categories = this.props.categories
-        console.log(categories);
-
-
         return (
             <div className="menu-area">
                 <div className="category">
@@ -43,30 +45,32 @@ class Navi extends Component {
                         <img src="./assets/images/plus-solid.svg" alt="+" />
                         <span>Create New</span>
                     </div>
-                    <div className="menu-item active">
+                    <div className={`menu-item ${this.props.categoryIndex === 0 ? 'active' : ''}`}
+                        onClick={() => this.props.setCategoryIndex(0)}>
                         <img src="./assets/images/sticky-note-solid.svg" alt="all" />
                         <span>All Notes</span>
                         <div className="quantity">
-                            10
-                            </div>
+                            {notes.length}
+                        </div>
                     </div>
                     <div className="category-area ">
                         <img src="./assets/images/tags-solid.svg" alt="tags" />
                         <p>Catagory</p>
                     </div>
                     <div className="category-list ">
+                        <div className={`category-item`} onClick={()=>this.props.changePopup('new-cate')}>
+                            <img src="./assets/images/plus-solid-white.svg" alt="item" />
+                            <p>New category</p>
+                        </div>
                         {this._showCategories(categories)}
 
-                        
-                        
-                        
                     </div>
-                    <div className="menu-item ">
+                    <div className={`menu-item ${this.props.categoryIndex === 'clip' ? 'active' : ''}`} onClick={() => this.props.setCategoryIndex('clip')}>
                         <img src="./assets/images/paperclip-solid.svg" alt="all" />
                         <span>Clip</span>
                         <div className="quantity">
-                            10
-                            </div>
+                            {notes.filter(x => x.clip === true).length}
+                        </div>
                     </div>
                 </div>
                 <div className="menu-area__delete" onClick={() => {
@@ -89,12 +93,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         getCategories: () => {
             dispatch(actGetCategoriesRequest())
+        },
+        setCategoryIndex: (id) => {
+            dispatch(actSetCategoryIndex(id))
         }
     }
 }
 const mapStateToProps = (state, ownProps) => {
     return {
-        categories: state.categories
+        categories: state.categories,
+        notes: state.notes,
+        categoryIndex: state.categoryIndex
     }
 }
 

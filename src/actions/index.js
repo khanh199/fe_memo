@@ -70,3 +70,10 @@ export const actSetNoteIndex = (value) => {
         value
     }
 }
+
+export const actSetCategoryIndex = (value) => {
+    return {
+        type: types.CHANGE_INDEX_CURRENT_CATEGORY,
+        value
+    }
+}
