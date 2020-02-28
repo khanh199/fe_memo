@@ -34,13 +34,14 @@ export default class index extends Component {
 
     _checkToken = () => {
         let token = localStorage.getItem('memo-token');
-        axios.post(`${URL_API}/login/check-token`, { token })
+        axios.post(`${URL_API}/users/check-token`, { token })
             .then(data => {
                 if (!data.data.rs) {
                     fakeAuth.signout();
                     return;
                 }
                 fakeAuth.authenticate(() => {
+                    this.setState({ authToken: true })
                 });
             })
             .catch(err => console.log(err))
@@ -52,9 +53,7 @@ export default class index extends Component {
 
 
     render() {
-        console.log(this.state.authToken);
-
-        if (this.state.authToken === true)
+        if (this.state.authToken === true )
             return <Redirect to='/' />
         return (
             <div>

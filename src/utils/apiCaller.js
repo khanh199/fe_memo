@@ -1,23 +1,21 @@
 import axios from 'axios';
-import * as Config from './../constants/Config';
+import * as Config from './../constants/config';
 
 const callAPI = (endpoint, method = 'GET', body) => {
-    var token = document.cookie && document.cookie.split(';').find(n => n.includes('authorization')) ? document.cookie.split(';').find(n => n.includes('authorization')).split('=')[1] : '';
-    var lang = document.cookie && document.cookie.split(';').find(n => n.includes('lang')) ? document.cookie.split(';').find(n => n.includes('lang')).split('=')[1] : 'vn';
+    var token = localStorage.getItem('memo-token')
     if (token !== '') {
         return axios({
             method: method,
-            url: `${Config.API_URL}/${endpoint}`,
+            url: `${Config.URL_API}/${endpoint}`,
             data: body,
             headers: {
                 "authorization": `bearer ${token}`,
                 "accept": "application/json",
-                "language": lang
             }
         })
         .then(data => {
             if(data.data.tokensai){
-                window.location.href = '/kentei/login'
+                window.location.href = '/login'
             }else{
                 return data;
             }
@@ -26,7 +24,7 @@ const callAPI = (endpoint, method = 'GET', body) => {
             console.log(err.err);
         });
     }else{
-        window.location.href = '/kentei/login'
+        window.location.href = '/login'
     }
 }
 

@@ -3,6 +3,8 @@ import './App.scss';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import routers from './routers'
 import fakeAuth from './auth'
+import axios from 'axios'
+import {URL_API} from './constants/config'
 
 
 function PrivateRoute({ component: Component, ...rest }) {
@@ -26,6 +28,14 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+    }
+  }
+  
 
   _showPages = (routers) => {
     var result = null;
@@ -52,6 +62,27 @@ class App extends Component {
     }
     return <Switch>{result}</Switch>
   }
+
+  componentWillMount() {
+    this._checkToken()
+  }
+  
+
+  _checkToken = () => {
+    let token = localStorage.getItem('memo-token');
+    axios.post(`${URL_API}/users/check-token`, { token })
+        .then(data => {
+            if (!data.data.rs) {
+                fakeAuth.signout();
+                return;
+            }
+            fakeAuth.authenticate(() => {
+              this.setState({a:1})
+            });
+        })
+        .catch(err => console.log(err))
+}
+
   render() {
     return (
       <Router>

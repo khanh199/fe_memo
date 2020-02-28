@@ -1,0 +1,8 @@
+export const GET_AUTH = 'GET_AUTH'
+export const SET_AUTH_TRUE = 'SET_AUTH_TRUE'
+export const SET_AUTH_FALSE = 'SET_AUTH_FALSE'
+
+export const GET_CATEGORIES = 'GET_CATEGORIES'
+export const GET_NOTES = 'GET_NOTES'
+
+export const CHANGE_INDEX_CURRENT_MEMO = 'CHANGE_INDEX_CURRENT_MEMO'
