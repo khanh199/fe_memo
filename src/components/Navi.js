@@ -27,6 +27,14 @@ class Navi extends Component {
                 <div className="quantity">
                     {notes.filter(x => x.category && x.category._id === item._id).length}
                 </div>
+                <div className="control-cate">
+                    <div onClick={() => this.props.changePopup('edit-cate',item._id,item.name)}>
+                        <img src="./assets/images/pen.svg" height="15px" width="15px" alt="pen" />
+                    </div>
+                    <div>
+                        <img src="./assets/images/trash-1.svg" height="15px" width="15px" alt="trash" />
+                    </div>
+                </div>
             </div>)
         )
     }
@@ -41,7 +49,7 @@ class Navi extends Component {
         return (
             <div className="menu-area">
                 <div className="category">
-                    <div className="create-new">
+                    <div className="create-new" onClick={()=>this.props.changeStatusControl('new-note')}>
                         <img src="./assets/images/plus-solid.svg" alt="+" />
                         <span>Create New</span>
                     </div>
@@ -58,7 +66,7 @@ class Navi extends Component {
                         <p>Catagory</p>
                     </div>
                     <div className="category-list ">
-                        <div className={`category-item`} onClick={()=>this.props.changePopup('new-cate')}>
+                        <div className={`category-item`} onClick={() => this.props.changePopup('new-cate','')}>
                             <img src="./assets/images/plus-solid-white.svg" alt="item" />
                             <p>New category</p>
                         </div>

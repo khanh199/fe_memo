@@ -11,7 +11,7 @@ class MemoList extends Component {
     _showMemoItem = (list, idCate) => {
         if (list.length > 0)
             return list.map((item, index) => {
-                if (idCate === 'clip' && item.clip===true)
+                if (idCate === 'clip' && item.clip === true)
                     return (
                         <div key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item  ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
                             <p className="memo-item__title">{item.title}</p>
@@ -22,7 +22,7 @@ class MemoList extends Component {
                                 </p>
                                 <p className="memo-item__info--cate">
                                     <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
-                                    <span>Category 01</span>
+                                    <span>{item.category.name}</span>
                                 </p>
                             </div>
                             <div className="clip-memo-item">
@@ -39,10 +39,11 @@ class MemoList extends Component {
                                     <img src="./assets/images/clock-regular.svg" alt="clock" />
                                     <span>{moment(item.createDate).format("YYYY/MM/DD")}</span>
                                 </p>
-                                <p className="memo-item__info--cate">
+                                {item.category ? (<p className="memo-item__info--cate">
                                     <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
-                                    <span>Category 01</span>
-                                </p>
+                                    <span>{item.category.name}</span>
+                                </p>) : null}
+
                             </div>
                             <div className="clip-memo-item">
                                 <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
@@ -55,6 +56,7 @@ class MemoList extends Component {
     }
     _onChooseMemo = (id) => {
         this.props.changeNoteIndex(id)
+        this.props.changeStatusControl('')
     }
 
     render() {

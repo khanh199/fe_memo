@@ -7,7 +7,7 @@
   grid-template-columns: 269px auto;
   font-family: $FuturaPT;
 
-  .popup{
+  .popup {
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -21,8 +21,8 @@
       width: 390px;
       height: 210px;
       background: white;
-      border-radius: 10px ;
-      box-shadow: 0 12px 15px 0 rgba(0,0,0,0.24);
+      border-radius: 10px;
+      box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
 
       &__title {
         font-size: 18px;
@@ -43,7 +43,7 @@
       &__control {
         display: flex;
         justify-content: flex-end;
-        &>div {
+        & > div {
           margin: 3px;
           width: 81px;
           height: 36px;
@@ -55,7 +55,6 @@
           &:hover {
             background: rgba(222, 222, 222, 0.8);
           }
-          
         }
       }
     }
@@ -221,17 +220,40 @@
         align-items: center;
         border-radius: 30px;
         cursor: pointer;
+
         p {
           margin-left: 17px;
         }
         .quantity {
           top: 5px;
         }
+
+        .control-cate {
+          position: absolute;
+          top: 5px;
+          right: 10px;
+          width: 40px;
+          height: 30px;
+          // background: #454e55 0% 0% no-repeat padding-box;
+          border-radius: 50px;
+          align-items: center;
+          justify-content: center;
+          display: none;
+          div {
+            padding: 6px;
+          }
+        }
         &.active {
           background: $colorActiveItemMenu;
         }
         &:hover {
           background: $colorActiveItemMenu;
+          .quantity {
+            display: none;
+          }
+          .control-cate {
+            display: flex;
+          }
         }
       }
     }
@@ -443,7 +465,8 @@
         padding-top: 30px;
         &--info {
           display: flex;
-          span {
+          div {
+            padding: 10px;
             color: rgba(43, 49, 55, 1);
             display: flex;
             align-items: center;
@@ -452,6 +475,89 @@
             }
             &.cate {
               margin-left: 20px;
+              position: relative;
+              &.edit {
+                border: 1px solid rgba(222, 222, 222, 0.5);
+                border-radius: 20px;
+                cursor: pointer;
+                &:hover {
+                  background: rgba(222, 222, 222, 0.2);
+                }
+              }
+              &_popup {
+                p.title {
+                  width: 100%;
+                  padding-left: 15px;
+                  padding-top: 15px;
+                  padding-bottom: 15px;
+                }
+                &.active {
+                  display: block !important;
+                }
+                padding: 0;
+                display: none !important;
+                position: absolute;
+                background: rgba(254, 254, 254, 0.8);
+                top: 37px;
+                left: 4px;
+                border-radius: 2px;
+                box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12),
+                  0 5px 5px -3px rgba(0, 0, 0, 0.2);
+                display: flex;
+                flex-direction: column;
+                min-width: 250px;
+                &__list {
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  padding: 0;
+                  max-height: 250px;
+                  overflow-y: auto;
+
+                  /* Let's get this party started */
+                  &::-webkit-scrollbar {
+                    width: 5px;
+                  }
+                  
+                  /* Track */
+                  &::-webkit-scrollbar-track {
+                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                    -webkit-border-radius: 10px;
+                    border-radius: 10px;
+                  }
+
+                  /* Handle */
+                  &::-webkit-scrollbar-thumb {
+                    -webkit-border-radius: 10px;
+                    border-radius: 10px;
+                    background: rgba(222, 222, 222, 0.5);
+                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+                  }
+                }
+                &__cate-item {
+                  width: 100%;
+                  position: relative;
+                  padding: 10px;
+                  padding-left: 20px;
+                  &:hover {
+                    background: rgba(240, 240, 240, 1);
+                  }
+                  .img-cate {
+                    margin-right: 15px;
+                  }
+                  &.active {
+                    .tick {
+                      display: block;
+                    }
+                  }
+                  .tick {
+                    display: none;
+                    position: absolute;
+                    right: 12px;
+                    top: 13px;
+                  }
+                }
+              }
             }
           }
         }

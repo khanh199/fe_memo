@@ -77,3 +77,21 @@ export const actSetCategoryIndex = (value) => {
         value
     }
 }
+
+export const actNewCategory = (data) => {
+    return (dispatch) => {
+        return callAPI(`categories/new-cate`, 'POST', data)
+            .then((res) => {
+                dispatch(actGetCategoriesRequest())
+            }).catch(e => console.log(e));
+    }
+}
+
+export const actEditCategory = (data) => {
+    return (dispatch) => {
+        return callAPI(`categories/edit/${data.id}`, 'PATCH', data)
+            .then((res) => {
+                dispatch(actGetCategoriesRequest())
+            }).catch(e => console.log(e));
+    }
+}
