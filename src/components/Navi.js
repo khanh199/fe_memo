@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { actSetAuthFalse, actGetCategoriesRequest, actSetCategoryIndex } from '../actions/index'
+import { actSetAuthFalse, actGetCategoriesRequest, actSetCategoryIndex, actDeleteCategory } from '../actions/index'
 import { Redirect } from 'react-router-dom'
 
 class Navi extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            redirectPage: false
+            redirectPage: false,
+            showCate : true
         }
     }
 
@@ -25,20 +26,19 @@ class Navi extends Component {
                 <img src="./assets/images/tags-item.svg" alt="item" />
                 <p>{item.name}</p>
                 <div className="quantity">
-                    {notes.filter(x => x.category && x.category._id === item._id).length}
+                    {notes.filter(x => x.category && x.category._id === item._id && x.deleted !== true).length}
                 </div>
                 <div className="control-cate">
-                    <div onClick={() => this.props.changePopup('edit-cate',item._id,item.name)}>
+                    <div onClick={() => this.props.changePopup('edit-cate', item._id, item.name)}>
                         <img src="./assets/images/pen.svg" height="15px" width="15px" alt="pen" />
                     </div>
-                    <div>
+                    <div onClick={() => this.props.deleteCategory(item._id)}>
                         <img src="./assets/images/trash-1.svg" height="15px" width="15px" alt="trash" />
                     </div>
                 </div>
             </div>)
         )
     }
-
 
     render() {
         let notes = this.props.notes
@@ -49,7 +49,7 @@ class Navi extends Component {
         return (
             <div className="menu-area">
                 <div className="category">
-                    <div className="create-new" onClick={()=>this.props.changeStatusControl('new-note')}>
+                    <div className="create-new" onClick={() => this.props.changeStatusControl('new-note')}>
                         <img src="./assets/images/plus-solid.svg" alt="+" />
                         <span>Create New</span>
                     </div>
@@ -61,12 +61,13 @@ class Navi extends Component {
                             {notes.length}
                         </div>
                     </div>
-                    <div className="category-area ">
+                    <div className="category-area" onClick={()=>this.setState({showCate: !this.state.showCate})}>
                         <img src="./assets/images/tags-solid.svg" alt="tags" />
                         <p>Catagory</p>
+                        <img height="12px" width="12px" className={`arrow-cate ${this.state.showCate?'up':''}`} src="./assets/images/arrow-down.svg" alt="arrow" />
                     </div>
-                    <div className="category-list ">
-                        <div className={`category-item`} onClick={() => this.props.changePopup('new-cate','')}>
+                    <div className={`category-list ${this.state.showCate?'':'hidden'}`}>
+                        <div className={`category-item`} onClick={() => this.props.changePopup('new-cate', '')}>
                             <img src="./assets/images/plus-solid-white.svg" alt="item" />
                             <p>New category</p>
                         </div>
@@ -81,13 +82,23 @@ class Navi extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="menu-area__delete" onClick={() => {
-                    this.props.logout();
-                    this.setState({ redirectPage: true })
-                }}>
-                    <img src="./assets/images/trash-solid.svg" alt="trash" />
-                    Logout
+                <div className="menu-area__bottom">
+                    <div className="menu-area__logout" onClick={() => {
+                        this.props.logout();
+                        this.setState({ redirectPage: true })
+                    }}>
+                        <img height="15px" width="15px" src="./assets/images/logout.svg" alt="trash" />
+                        Logout
                     </div>
+                    <div 
+                        className={`menu-area__delete ${this.props.categoryIndex==='trash'?'active':''}`} 
+                        onClick={()=>this.props.setCategoryIndex('trash')}>
+
+                        <img height="15px" width="15px" src="./assets/images/trash-solid.svg" alt="trash" />
+                        Recycle bin
+                    </div>
+                </div>
+
             </div>
 
         )
@@ -104,6 +115,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         setCategoryIndex: (id) => {
             dispatch(actSetCategoryIndex(id))
+        },
+        deleteCategory: (id) => {
+            dispatch(actDeleteCategory(id))
         }
     }
 }

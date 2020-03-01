@@ -76,10 +76,10 @@ class index extends Component {
                     </div>
                 </div>) : null
                 }
-                <Navi changePopup={this._changePopup} changeStatusControl = {this._onChangeStatus}/>
+                <Navi  changePopup={this._changePopup} changeStatusControl = {this._onChangeStatus}/>
                 <div className="main-area">
                     <MemoList changeStatusControl = {this._onChangeStatus}/>
-                    <Memo statusControl={this.state.statusControl}/>
+                    <Memo idCate = {this.state.idCate} statusControl={this.state.statusControl} changeStatusControl = {this._onChangeStatus}/>
                 </div>
             </div>
         )

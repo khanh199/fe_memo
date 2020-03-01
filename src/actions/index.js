@@ -42,7 +42,7 @@ export const actGetNotesRequest = () => {
         return callAPI(`notes/get-all`).then((res) => {
             let Notes = res.data.rs.filter(n => n !== null);
             console.log(Notes);
-            
+
             dispatch(actGetNotes(Notes));
         }).catch(e => console.log(e));
     }
@@ -58,6 +58,15 @@ export const actGetNotes = (notes) => {
 export const actNewNote = (data) => {
     return (dispatch) => {
         return callAPI(`notes/new-note`, 'POST', data)
+            .then((res) => {
+                dispatch(actGetNotesRequest())
+            }).catch(e => console.log(e));
+    }
+}
+
+export const actEditNote = (data) => {
+    return (dispatch) => {
+        return callAPI(`notes/edit/${data.id}`, 'PATCH', data)
             .then((res) => {
                 dispatch(actGetNotesRequest())
             }).catch(e => console.log(e));
@@ -92,6 +101,59 @@ export const actEditCategory = (data) => {
         return callAPI(`categories/edit/${data.id}`, 'PATCH', data)
             .then((res) => {
                 dispatch(actGetCategoriesRequest())
+            }).catch(e => console.log(e));
+    }
+}
+
+export const actDeleteCategory = (id) => {
+    return (dispatch) => {
+        return callAPI(`categories/${id}`, 'DELETE')
+            .then((res) => {
+                dispatch(actGetCategoriesRequest())
+            }).catch(e => console.log(e));
+    }
+}
+
+export const actSetClip = (status, id) => {
+    if (status)
+        return (dispatch) => {
+            return callAPI(`notes/set-clip-true/${id}`, 'PATCH')
+                .then((res) => {
+                    dispatch(actGetNotesRequest())
+                }).catch(e => console.log(e));
+        }
+    else
+        return (dispatch) => {
+            return callAPI(`notes/set-clip-false/${id}`, 'PATCH')
+                .then((res) => {
+                    dispatch(actGetNotesRequest())
+                }).catch(e => console.log(e));
+        }
+}
+
+export const actDeleteNoteToTrash = (id) => {
+    return (dispatch) => {
+        return callAPI(`notes/delete_to_trash/${id}`, 'PATCH')
+            .then((res) => {
+                dispatch(actGetNotesRequest())
+            }).catch(e => console.log(e));
+    }
+}
+
+export const actRestoreNote = (id) => {
+    return (dispatch) => {
+        return callAPI(`notes/restore/${id}`, 'PATCH')
+            .then((res) => {
+                dispatch(actGetNotesRequest())
+            }).catch(e => console.log(e));
+    }
+}
+
+export const actDeleteNote = (id) => {
+    return (dispatch) => {
+        return callAPI(`notes/delete/${id}`, 'DELETE')
+            .then((res) => {
+                dispatch(actGetNotesRequest())
             }).catch(e => console.log(e));
     }
 }

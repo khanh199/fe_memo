@@ -11,7 +11,9 @@ class MemoList extends Component {
     _showMemoItem = (list, idCate) => {
         if (list.length > 0)
             return list.map((item, index) => {
-                if (idCate === 'clip' && item.clip === true)
+                if (item.deleted === true)
+                    return null
+                else if (idCate === 'clip' && item.clip === true)
                     return (
                         <div key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item  ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
                             <p className="memo-item__title">{item.title}</p>
@@ -20,10 +22,10 @@ class MemoList extends Component {
                                     <img src="./assets/images/clock-regular.svg" alt="clock" />
                                     <span>{moment(item.createDate).format("YYYY/MM/DD")}</span>
                                 </p>
-                                <p className="memo-item__info--cate">
+                                {item.category ? (<p className="memo-item__info--cate">
                                     <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
                                     <span>{item.category.name}</span>
-                                </p>
+                                </p>) : null}
                             </div>
                             <div className="clip-memo-item">
                                 <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
@@ -43,7 +45,6 @@ class MemoList extends Component {
                                     <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
                                     <span>{item.category.name}</span>
                                 </p>) : null}
-
                             </div>
                             <div className="clip-memo-item">
                                 <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
@@ -52,7 +53,32 @@ class MemoList extends Component {
                     )
                 else return null
             })
-        return null
+        return []
+    }
+    _showMemoItemDeleted = (list, idCate) => {
+        if (list.length > 0)
+            return list.map((item, index) => {
+                if (idCate === 'trash' && item.deleted === true)
+                    return (
+                        <div key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item  ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
+                            <p className="memo-item__title">{item.title}</p>
+                            <div className="memo-item__info">
+                                <p className="memo-item__info--clock">
+                                    <img src="./assets/images/clock-regular.svg" alt="clock" />
+                                    <span>{moment(item.createDate).format("YYYY/MM/DD")}</span>
+                                </p>
+                                {item.category ? (<p className="memo-item__info--cate">
+                                    <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
+                                    <span>{item.category.name}</span>
+                                </p>) : null}
+                            </div>
+                            <div className="clip-memo-item">
+                                <img src="./assets/images/paperclip-solid-i.svg" alt="clip" />
+                            </div>
+                        </div>
+                    )
+            })
+        return []
     }
     _onChooseMemo = (id) => {
         this.props.changeNoteIndex(id)
@@ -72,7 +98,12 @@ class MemoList extends Component {
                     <span>Title</span> <img src="./assets/images/sort-amount-up-alt-solid.svg" alt="sort-amount-up-alt-solid" />
                 </div>
                 <div className="memo-list">
-                    {this._showMemoItem(lsNotes, categoryIndex)}
+                    {
+                        this.props.categoryIndex !== 'trash' ?
+                            this._showMemoItem(lsNotes, categoryIndex)
+                            :
+                            this._showMemoItemDeleted(lsNotes, categoryIndex)
+                    }
 
                 </div>
             </div>
