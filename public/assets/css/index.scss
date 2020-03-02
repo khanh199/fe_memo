@@ -79,7 +79,8 @@
     &__bottom {
       display: flex;
     }
-    &__logout, &__delete {
+    &__logout,
+    &__delete {
       padding-left: 10px;
       display: flex;
       align-items: center;
@@ -118,7 +119,8 @@
       &:hover {
         background: rgba(254, 254, 254, 0.95);
         // box-shadow: inset 58px 16px 94px -93px rgba(6, 6, 8, 0.9);
-        box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14),
+          0 1px 18px 0 rgba(0, 0, 0, 0.12);
       }
 
       span {
@@ -194,13 +196,6 @@
     /* Let's get this party started */
     .category-list::-webkit-scrollbar {
       width: 5px;
-      display: none;
-    }
-    .category-list:hover::-webkit-scrollbar {
-      display: block;
-    }
-    .category-list:hover {
-      margin-right: -5px;
     }
 
     /* Track */
@@ -220,11 +215,28 @@
     // .category-list::-webkit-scrollbar-thumb {
     //   background: rgba(255, 0, 0, 0.4);
     // }
-
+    .scroll-bar-wrap {
+      position: relative;
+      .cover-bar {
+        position: absolute;
+        background: #313f46 0% 0% no-repeat padding-box;
+        height: 100%;
+        top: 0;
+        right: -2px;
+        width: 0.4em;
+        -webkit-transition: all 0.5s;
+        opacity: 1;
+      }
+      &:hover .cover-bar {
+        opacity: 0;
+       -webkit-transition: all .5s;
+     }
+    }
     .category-list {
       padding-left: 40px;
       max-height: calc(100vh - 320px);
       overflow-y: auto;
+
       &.hidden {
         display: none;
       }
@@ -341,26 +353,22 @@
 
       /* Let's get this party started */
       .memo-list::-webkit-scrollbar {
-        width: 5px;
-        display: none;
-      }
-      .memo-list:hover::-webkit-scrollbar {
-        display: block;
+        width: 7px;
       }
 
       /* Track */
       .memo-list::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        -webkit-border-radius: 10px;
-        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+        // -webkit-border-radius: 10px;
+        // border-radius: 10px;
       }
 
       /* Handle */
       .memo-list::-webkit-scrollbar-thumb {
-        -webkit-border-radius: 10px;
-        border-radius: 10px;
-        background: rgba(222, 222, 222, 0.5);
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+        // -webkit-border-radius: 10px;
+        // border-radius: 10px;
+        background: rgba(222, 222, 222, 0.4);
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
       }
 
       .memo-list {
@@ -369,6 +377,14 @@
         overflow-y: auto;
         padding-left: 0;
         padding-right: 0;
+        .empty {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+        }
         height: calc(100vh - 120px);
         .memo-item {
           min-height: 79px;
@@ -473,7 +489,7 @@
               margin-right: 4px;
             }
             &.forever {
-              background: rgba(230, 126, 34,1.0);
+              background: rgba(230, 126, 34, 1);
             }
           }
           &.delete {
@@ -491,18 +507,18 @@
         padding-right: 40px;
         padding-left: 40px;
         padding-top: 30px;
+
         &--info {
           display: flex;
           div {
-            padding: 10px;
             color: rgba(43, 49, 55, 1);
-            display: flex;
             align-items: center;
             img {
               margin-right: 7px;
             }
-            &.cate {
-              margin-left: 20px;
+            &.cate,
+            &.time {
+              padding: 10px;
               position: relative;
               &.edit {
                 border: 1px solid rgba(222, 222, 222, 0.5);
@@ -512,6 +528,11 @@
                   background: rgba(222, 222, 222, 0.2);
                 }
               }
+            }
+            &.cate {
+              margin-left: 20px;
+              position: relative;
+
               &_popup {
                 p.title {
                   width: 100%;
@@ -546,7 +567,7 @@
                   &::-webkit-scrollbar {
                     width: 5px;
                   }
-                  
+
                   /* Track */
                   &::-webkit-scrollbar-track {
                     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -617,5 +638,15 @@
         }
       }
     }
+  }
+}
+.date-time-picker {
+  padding: 0 !important;
+  position: absolute;
+  width: 300px;
+  max-width: 350px !important;
+  display: none;
+  &.active {
+    display: block;
   }
 }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { actNewNote, actEditNote, actSetClip, actDeleteNoteToTrash,actRestoreNote, actDeleteNote } from '../actions/index'
+import { actNewNote, actEditNote, actSetClip, actDeleteNoteToTrash, actRestoreNote, actDeleteNote } from '../actions/index'
 import moment from 'moment'
+import Calendar from 'react-calendar'
 class Memo extends Component {
     constructor(props) {
         super(props)
@@ -11,7 +12,8 @@ class Memo extends Component {
             category: null,
             openPopupCate: false,
             clip: false,
-            id: null
+            id: null,
+            createDate: null
         }
     }
     _onChangeText = (e) => {
@@ -52,20 +54,22 @@ class Memo extends Component {
     _onEdit = () => {
         let { notes, noteIndex } = this.props
         let noteItem = notes.find(x => x._id === noteIndex)
+        
         this.setState({
             id: noteIndex,
             title: noteItem.title,
             content: noteItem.content,
             clip: noteItem.clip,
-            category: noteItem.category ? noteItem.category._id : null
+            category: noteItem.category ? noteItem.category._id : null,
+            createDate: noteItem.createDate 
         })
         this.props.changeStatusControl('edit-note')
+
     }
     componentDidMount() {
         setTimeout(() => {
             this.setState({ category: this.props.categoryIndex })
         }, 100);
-
     }
 
 
@@ -75,6 +79,7 @@ class Memo extends Component {
         if (statusControl === 'edit-note') {
             return (
                 <div className="memo-area">
+                    
                     <div className="tools-bar">
                         <div className="tools3">
                             <div className="tools-bar__item save" onClick={this._onSaveEdit}>
@@ -93,10 +98,12 @@ class Memo extends Component {
                     </div>
                     <div className="memo-detail">
                         <div className="memo-detail--info">
-                            <div className="time">
+                            <div className={`time edit`}>
                                 <img src="./assets/images/clock-regular-2.svg" alt="clock" />
-                                {moment().format('YYYY/MM/DD')}
+                                {moment(this.state.createDate).format('YYYY/MM/DD')}
+                                {/* <Calendar className="date-time-picker active" value={new Date(this.state.createDate)} /> */}
                             </div>
+                            
                             <div
                                 onClick={() => this.setState({ openPopupCate: !this.state.openPopupCate })}
                                 className={`cate edit`}>
@@ -188,15 +195,15 @@ class Memo extends Component {
                             </div>
                         </div>
                         <div className="tools3">
-                            
+
                             {this.props.categoryIndex === 'trash' ? (<div className="tools-bar__item delete forever" onClick={() => this.props.deleteNoteForever(noteItem._id)}>
                                 <img src="./assets/images/trash-solid.svg" alt="trash" />
                                 Delete
                             </div>) : (<div className="tools-bar__item delete" onClick={() => this.props.deleteToTrash(noteItem._id)}>
-                                <img src="./assets/images/trash-solid.svg" alt="trash" />
-                                Delete
+                                    <img src="./assets/images/trash-solid.svg" alt="trash" />
+                                    Delete
                             </div>)}
-                            {this.props.categoryIndex === 'trash' ? (<div className="tools-bar__item restore"  onClick={()=>this.props.restoreNote(noteItem._id)}>
+                            {this.props.categoryIndex === 'trash' ? (<div className="tools-bar__item restore" onClick={() => this.props.restoreNote(noteItem._id)}>
                                 <img src="./assets/images/restore.svg" height="15px" width="15px" alt="trash" />
                                 Restore
                             </div>) : null}
@@ -248,10 +255,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         deleteToTrash: (id) => {
             dispatch(actDeleteNoteToTrash(id))
         },
-        restoreNote: (id)=>{
+        restoreNote: (id) => {
             dispatch(actRestoreNote(id))
         },
-        deleteNoteForever: (id)=>{
+        deleteNoteForever: (id) => {
             dispatch(actDeleteNote(id))
         }
     }

@@ -8,7 +8,7 @@ class Navi extends Component {
         super(props)
         this.state = {
             redirectPage: false,
-            showCate : true
+            showCate: true
         }
     }
 
@@ -61,19 +61,22 @@ class Navi extends Component {
                             {notes.length}
                         </div>
                     </div>
-                    <div className="category-area" onClick={()=>this.setState({showCate: !this.state.showCate})}>
+                    <div className="category-area" onClick={() => this.setState({ showCate: !this.state.showCate })}>
                         <img src="./assets/images/tags-solid.svg" alt="tags" />
                         <p>Catagory</p>
-                        <img height="12px" width="12px" className={`arrow-cate ${this.state.showCate?'up':''}`} src="./assets/images/arrow-down.svg" alt="arrow" />
+                        <img height="12px" width="12px" className={`arrow-cate ${this.state.showCate ? 'up' : ''}`} src="./assets/images/arrow-down.svg" alt="arrow" />
                     </div>
-                    <div className={`category-list ${this.state.showCate?'':'hidden'}`}>
-                        <div className={`category-item`} onClick={() => this.props.changePopup('new-cate', '')}>
-                            <img src="./assets/images/plus-solid-white.svg" alt="item" />
-                            <p>New category</p>
+                    <div className="scroll-bar-wrap">
+                        <div className={`category-list ${this.state.showCate ? '' : 'hidden'}`}>
+                            <div className={`category-item`} onClick={() => this.props.changePopup('new-cate', '')}>
+                                <img src="./assets/images/plus-solid-white.svg" alt="item" />
+                                <p>New category</p>
+                            </div>
+                            {this._showCategories(categories)}
                         </div>
-                        {this._showCategories(categories)}
-
+                        <div className="cover-bar"></div>
                     </div>
+
                     <div className={`menu-item ${this.props.categoryIndex === 'clip' ? 'active' : ''}`} onClick={() => this.props.setCategoryIndex('clip')}>
                         <img src="./assets/images/paperclip-solid.svg" alt="all" />
                         <span>Clip</span>
@@ -90,9 +93,9 @@ class Navi extends Component {
                         <img height="15px" width="15px" src="./assets/images/logout.svg" alt="trash" />
                         Logout
                     </div>
-                    <div 
-                        className={`menu-area__delete ${this.props.categoryIndex==='trash'?'active':''}`} 
-                        onClick={()=>this.props.setCategoryIndex('trash')}>
+                    <div
+                        className={`menu-area__delete ${this.props.categoryIndex === 'trash' ? 'active' : ''}`}
+                        onClick={() => this.props.setCategoryIndex('trash')}>
 
                         <img height="15px" width="15px" src="./assets/images/trash-solid.svg" alt="trash" />
                         Recycle bin
