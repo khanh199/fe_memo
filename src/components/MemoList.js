@@ -15,7 +15,6 @@ class MemoList extends Component {
         }
     }
 
-
     _showMemoItem = (list, idCate) => {
         if (list.length > 0) {
             let rs = list.map((item, index) => {
