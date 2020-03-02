@@ -52,7 +52,7 @@ class index extends Component {
                             Create category
                         </div>
                         <div className="popup__box__text-input">
-                            <input name="nameCate" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />
+                            <input name="nameCate" value={this.state.nameCate} maxLength={14}  onChange={(e) => this._onChangeText(e)} />
                         </div>
                         <div className="popup__box__control">
                             <div onClick={() => this._changePopup('','')}>Cancel</div>
@@ -67,7 +67,7 @@ class index extends Component {
                             Rename category
                         </div>
                         <div className="popup__box__text-input">
-                            <input name="nameCate" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />
+                            <input name="nameCate" value={this.state.nameCate} maxLength={14} onChange={(e) => this._onChangeText(e)} />
                         </div>
                         <div className="popup__box__control">
                             <div onClick={() => this._changePopup('','')}>Cancel</div>

@@ -195,7 +195,7 @@
 
     /* Let's get this party started */
     .category-list::-webkit-scrollbar {
-      width: 5px;
+      width: 7px;
     }
 
     /* Track */
@@ -209,7 +209,7 @@
     .category-list::-webkit-scrollbar-thumb {
       -webkit-border-radius: 10px;
       border-radius: 10px;
-      background: rgba(222, 222, 222, 0.5);
+      background: rgba(222, 222, 222, 0.4);
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
     }
     // .category-list::-webkit-scrollbar-thumb {
@@ -217,13 +217,14 @@
     // }
     .scroll-bar-wrap {
       position: relative;
+      margin-right: -3px;
       .cover-bar {
         position: absolute;
         background: #313f46 0% 0% no-repeat padding-box;
         height: 100%;
         top: 0;
         right: -2px;
-        width: 0.4em;
+        width: 9px;
         -webkit-transition: all 0.5s;
         opacity: 1;
       }
@@ -233,7 +234,7 @@
      }
     }
     .category-list {
-      padding-left: 40px;
+      padding-left: 26px;
       max-height: calc(100vh - 320px);
       overflow-y: auto;
 
@@ -251,7 +252,7 @@
         cursor: pointer;
 
         p {
-          margin-left: 17px;
+          margin-left: 13px;
         }
         .quantity {
           top: 5px;
