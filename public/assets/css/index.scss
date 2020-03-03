@@ -1,6 +1,12 @@
 @import "./base/reset";
 @import "./base/font";
 @import "./base/variable";
+span.MuiButton-label {
+  justify-content: flex-start;
+}
+button.MuiButton-root {
+  line-height: unset;
+}
 
 .wrapper {
   display: grid;
@@ -84,8 +90,13 @@
       padding-left: 10px;
       display: flex;
       align-items: center;
+      color: white;
+      text-transform: none;
+      font-size: 15px;
+      font-family: $FuturaPT;
+      font-weight: normal;
       cursor: pointer;
-      width: 145px;
+      width: 150px;
       border-radius: 20px;
       &:hover {
         background: $colorActiveItemMenu;
@@ -132,18 +143,20 @@
     }
 
     .menu-item {
-      // width: 270px;
+      width: 100%;
       height: 50px;
       border-radius: 50px;
       display: flex;
       align-items: center;
-      padding-left: 25px;
+      // padding-left: 25px;
       font-family: $FuturaPT;
       color: $colorTextMenu;
       position: relative;
       cursor: pointer;
       span {
         margin-left: 17px;
+        font-size: 16px;
+        text-transform: none;
       }
       &.active {
         background: $colorActiveItemMenu 0% 0% no-repeat padding-box;
@@ -168,6 +181,11 @@
     }
     .category-area {
       display: flex;
+      width: 100%;
+      color: white;
+      font-family: $FuturaPT;
+      text-transform: unset;
+      font-size: 16px;
       padding-left: 25px;
       padding-top: 15px;
       padding-bottom: 15px;
@@ -246,6 +264,9 @@
       .category-item {
         position: relative;
         padding-left: 15px;
+        width: 100%;
+        color: white;
+        font-family: $FuturaPT;
         margin-right: 7px;
         display: flex;
         min-height: 40px;
@@ -255,6 +276,9 @@
 
         p {
           margin-left: 13px;
+          text-transform: none;
+          font-size: 16px;
+          letter-spacing: 0;
         }
         .quantity {
           top: 5px;

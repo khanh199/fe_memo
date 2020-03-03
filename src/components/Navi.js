@@ -16,15 +16,15 @@ class Navi extends Component {
 
     componentDidMount() {
         this.props.getCategories()
-        $( ".category-area" ).click(function() {
-            $( ".scroll-bar-wrap" ).slideToggle("slow");
-          });
+        $(".category-area").click(function () {
+            $(".scroll-bar-wrap").slideToggle("slow");
+        });
     }
 
     _showCategories = (list) => {
         let notes = this.props.notes
         return list.map((item, index) => (
-            <div
+            <Button
                 onClick={() => this.props.setCategoryIndex(item._id)} key={index}
                 className={`${item._id === this.props.categoryIndex ? 'active' : ''} category-item`}
             >
@@ -41,7 +41,7 @@ class Navi extends Component {
                         <img src="./assets/images/trash-1.svg" height="15px" width="15px" alt="trash" />
                     </div>
                 </div>
-            </div>)
+            </Button>)
         )
     }
 
@@ -66,46 +66,47 @@ class Navi extends Component {
                             {notes.length}
                         </div>
                     </Button>
-                    
-                    <div className="category-area" onClick={() => this.setState({ showCate: !this.state.showCate })} >
+
+                    <Button className="category-area" onClick={() => this.setState({ showCate: !this.state.showCate })} >
                         <img src="./assets/images/tags-solid.svg" alt="tags" />
                         <p>Catagory</p>
                         <img height="12px" width="12px" className={`arrow-cate ${this.state.showCate ? 'up' : ''}`} src="./assets/images/arrow-down.svg" alt="arrow" />
-                    </div>
+                    </Button>
                     <div className="scroll-bar-wrap">
                         <div className={`category-list`}>
-                            <div className={`category-item`} onClick={() => this.props.changePopup('new-cate', '')}>
+                            <Button className={`category-item`} onClick={() => this.props.changePopup('new-cate', '')}>
                                 <img src="./assets/images/plus-solid-white.svg" alt="item" />
                                 <p>New category</p>
-                            </div>
+                            </Button>
                             {this._showCategories(categories)}
                         </div>
                         <div className="cover-bar"></div>
                     </div>
 
-                    <div className={`menu-item ${this.props.categoryIndex === 'clip' ? 'active' : ''}`} onClick={() => this.props.setCategoryIndex('clip')}>
+                    <Button className={`menu-item ${this.props.categoryIndex === 'clip' ? 'active' : ''}`} onClick={() => this.props.setCategoryIndex('clip')}>
                         <img src="./assets/images/paperclip-solid.svg" alt="all" />
                         <span>Clip</span>
                         <div className="quantity">
                             {notes.filter(x => x.clip === true).length}
                         </div>
-                    </div>
+                    </Button>
                 </div>
                 <div className="menu-area__bottom">
-                    <div className="menu-area__logout" onClick={() => {
-                        this.props.logout();
-                        this.setState({ redirectPage: true })
-                    }}>
+                    <Button className="menu-area__logout"
+                        onClick={() => {
+                            this.props.logout();
+                            this.setState({ redirectPage: true })
+                        }}
+                    >
                         <img height="15px" width="15px" src="./assets/images/logout.svg" alt="trash" />
                         Logout
-                    </div>
-                    <div
+                    </Button>
+                    <Button
                         className={`menu-area__delete ${this.props.categoryIndex === 'trash' ? 'active' : ''}`}
                         onClick={() => this.props.setCategoryIndex('trash')}>
-
                         <img height="15px" width="15px" src="./assets/images/trash-solid.svg" alt="trash" />
                         Recycle bin
-                    </div>
+                    </Button>
                 </div>
 
             </div>
