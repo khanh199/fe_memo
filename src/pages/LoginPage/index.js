@@ -12,8 +12,8 @@ class index extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: 'ltk1909@gmail.com',
-            password: 'khanh123',
+            email: '',
+            password: '',
             authToken: false
         }
     }

@@ -237,6 +237,7 @@
       padding-left: 26px;
       max-height: calc(100vh - 320px);
       overflow-y: auto;
+      transition: all .5s ease-in-out;
 
       &.hidden {
         display: none;
@@ -709,7 +710,7 @@
   }
 }
 
-.title {
+#login-page .title {
   width: 100%;
   float: left;
   line-height: 46px;

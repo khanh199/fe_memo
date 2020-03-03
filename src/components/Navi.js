@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { actSetAuthFalse, actGetCategoriesRequest, actSetCategoryIndex, actDeleteCategory } from '../actions/index'
 import { Redirect } from 'react-router-dom'
+import $ from 'jquery'
 
 class Navi extends Component {
     constructor(props) {
@@ -14,6 +15,9 @@ class Navi extends Component {
 
     componentDidMount() {
         this.props.getCategories()
+        $( ".category-area" ).click(function() {
+            $( ".scroll-bar-wrap" ).slideToggle("slow");
+          });
     }
 
     _showCategories = (list) => {
@@ -61,13 +65,14 @@ class Navi extends Component {
                             {notes.length}
                         </div>
                     </div>
-                    <div className="category-area" onClick={() => this.setState({ showCate: !this.state.showCate })}>
+                    
+                    <div className="category-area" onClick={() => this.setState({ showCate: !this.state.showCate })} >
                         <img src="./assets/images/tags-solid.svg" alt="tags" />
                         <p>Catagory</p>
                         <img height="12px" width="12px" className={`arrow-cate ${this.state.showCate ? 'up' : ''}`} src="./assets/images/arrow-down.svg" alt="arrow" />
                     </div>
                     <div className="scroll-bar-wrap">
-                        <div className={`category-list ${this.state.showCate ? '' : 'hidden'}`}>
+                        <div className={`category-list`}>
                             <div className={`category-item`} onClick={() => this.props.changePopup('new-cate', '')}>
                                 <img src="./assets/images/plus-solid-white.svg" alt="item" />
                                 <p>New category</p>
