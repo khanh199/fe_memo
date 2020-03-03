@@ -4,6 +4,7 @@ import MemoList from '../../components/MemoList'
 import Memo from '../../components/Memo'
 import { connect } from 'react-redux'
 import { actGetNotes, actNewCategory, actEditCategory } from '../../actions/index'
+import Button from "@material-ui/core/Button";
 
 
 class index extends Component {
@@ -55,8 +56,8 @@ class index extends Component {
                             <input name="nameCate" value={this.state.nameCate} maxLength={14}  onChange={(e) => this._onChangeText(e)} />
                         </div>
                         <div className="popup__box__control">
-                            <div onClick={() => this._changePopup('','')}>Cancel</div>
-                            <div onClick={()=>this._onSaveNewCate()}>Save</div>
+                            <Button onClick={() => this._changePopup('','')}>Cancel</Button>
+                            <Button onClick={()=>this._onSaveNewCate()}>Save</Button>
                         </div>
                     </div>
                 </div>) : null
@@ -70,8 +71,8 @@ class index extends Component {
                             <input name="nameCate" value={this.state.nameCate} maxLength={14} onChange={(e) => this._onChangeText(e)} />
                         </div>
                         <div className="popup__box__control">
-                            <div onClick={() => this._changePopup('','')}>Cancel</div>
-                            <div onClick={()=>this._onSaveEditCate()}>Save</div>
+                            <Button onClick={() => this._changePopup('','')}>Cancel</Button>
+                            <Button onClick={()=>this._onSaveEditCate()}>Save</Button>
                         </div>
                     </div>
                 </div>) : null

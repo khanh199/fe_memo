@@ -41,8 +41,6 @@ export const actGetNotesRequest = () => {
     return (dispatch) => {
         return callAPI(`notes/get-all`).then((res) => {
             let Notes = res.data.rs.filter(n => n !== null);
-            console.log(Notes);
-
             dispatch(actGetNotes(Notes));
         }).catch(e => console.log(e));
     }
@@ -114,9 +112,17 @@ export const actDeleteCategory = (id) => {
     }
 }
 
+
+export const actGetNotesOnChangeClip = (action) => {
+    return {
+        type: types.GET_NOTES_ON_CHANGE_CLIP,
+        action
+    }
+}
 export const actSetClip = (status, id) => {
     if (status)
         return (dispatch) => {
+            dispatch(actGetNotesOnChangeClip({status,id}))
             return callAPI(`notes/set-clip-true/${id}`, 'PATCH')
                 .then((res) => {
                     dispatch(actGetNotesRequest())
@@ -124,6 +130,7 @@ export const actSetClip = (status, id) => {
         }
     else
         return (dispatch) => {
+            dispatch(actGetNotesOnChangeClip({status,id}))
             return callAPI(`notes/set-clip-false/${id}`, 'PATCH')
                 .then((res) => {
                     dispatch(actGetNotesRequest())

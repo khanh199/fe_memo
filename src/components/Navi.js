@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { actSetAuthFalse, actGetCategoriesRequest, actSetCategoryIndex, actDeleteCategory } from '../actions/index'
 import { Redirect } from 'react-router-dom'
 import $ from 'jquery'
+import Button from "@material-ui/core/Button"
 
 class Navi extends Component {
     constructor(props) {
@@ -57,14 +58,14 @@ class Navi extends Component {
                         <img src="./assets/images/plus-solid.svg" alt="+" />
                         <span>Create New</span>
                     </div>
-                    <div className={`menu-item ${this.props.categoryIndex === 0 ? 'active' : ''}`}
+                    <Button className={`menu-item ${this.props.categoryIndex === 0 ? 'active' : ''}`}
                         onClick={() => this.props.setCategoryIndex(0)}>
                         <img src="./assets/images/sticky-note-solid.svg" alt="all" />
                         <span>All Notes</span>
                         <div className="quantity">
                             {notes.length}
                         </div>
-                    </div>
+                    </Button>
                     
                     <div className="category-area" onClick={() => this.setState({ showCate: !this.state.showCate })} >
                         <img src="./assets/images/tags-solid.svg" alt="tags" />
