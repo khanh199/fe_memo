@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { actGetNotesRequest, actSetNoteIndex } from '../actions/index'
 import moment from 'moment'
+import Button from "@material-ui/core/Button"
+import IconButton from '@material-ui/core/IconButton';
 
 class MemoList extends Component {
     componentDidMount() {
@@ -11,13 +13,26 @@ class MemoList extends Component {
         super(props)
 
         this.state = {
-            keySearch: ''
+            keySearch: '',
+            sortWith: 'Title',
+            sortDesc: false
         }
     }
 
     _showMemoItem = (list, idCate) => {
         if (list.length > 0) {
-            let rs = list.map((item, index) => {
+            let rs = list.sort((a, b) => {
+                if (this.state.sortWith === 'Title')
+                    if (this.state.sortDesc)
+                        return (a.title > b.title) ? -1 : ((b.title > a.title) ? 1 : 0)
+                    else
+                        return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0)
+                else
+                    if (this.state.sortDesc)
+                        return (a.createDate > b.createDate) ? 1 : ((b.createDate > a.createDate) ? -1 : 0)
+                    else
+                        return (a.createDate > b.createDate) ? -1 : ((b.createDate > a.createDate) ? 1 : 0)
+            }).map((item, index) => {
                 if (item.deleted === true)
                     return null
                 else if (idCate === 'clip' && item.clip === true && item.title.includes(this.state.keySearch))
@@ -66,7 +81,18 @@ class MemoList extends Component {
     }
     _showMemoItemDeleted = (list, idCate) => {
         if (list.length > 0)
-            return list.map((item, index) => {
+            return list.sort((a, b) => {
+                if (this.state.sortWith === 'Title')
+                    if (this.state.sortDesc)
+                        return (a.title > b.title) ? -1 : ((b.title > a.title) ? 1 : 0)
+                    else
+                        return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0)
+                else
+                    if (this.state.sortDesc)
+                        return (a.createDate > b.createDate) ? 1 : ((b.createDate > a.createDate) ? -1 : 0)
+                    else
+                        return (a.createDate > b.createDate) ? -1 : ((b.createDate > a.createDate) ? 1 : 0)
+            }).map((item, index) => {
                 if (idCate === 'trash' && item.deleted === true && item.title.includes(this.state.keySearch))
                     return (
                         <div key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item  ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
@@ -103,13 +129,17 @@ class MemoList extends Component {
                 <div className="search-box">
                     <input className="search"
                         placeholder="キーワードを入力" name="keySearch"
-                        onChange={(e) => this.setState({ keySearch: e.target.value })} 
-                        value= {this.state.keySearch}
-                        />
+                        onChange={(e) => this.setState({ keySearch: e.target.value })}
+                        value={this.state.keySearch}
+                    />
                     <img className="search-icon" src="./assets/images/search-solid.svg" alt="search-icon" />
                 </div>
                 <div className="title-head">
-                    <span>Title</span> <img src="./assets/images/sort-amount-up-alt-solid.svg" alt="sort-amount-up-alt-solid" />
+                    <Button onClick={() => this.setState({ sortWith: this.state.sortWith === 'Title' ? 'Date modified' : 'Title' })}>{this.state.sortWith}</Button>
+                    {/* <span>Title</span>  */}
+                    <IconButton onClick={() => this.setState({ sortDesc: !this.state.sortDesc })}>
+                        <img className={this.state.sortDesc ? `down` : ''} src="./assets/images/sort-amount-up-alt-solid.svg" alt="sort-amount-up-alt-solid" />
+                    </IconButton>
                 </div>
                 <div className="memo-list">
                     {shows.length ? shows : (<div className="empty"> <img className="search-icon" src="http://ssl.gstatic.com/social/contactsui/images/labels/emptylabelicon_1x.png" alt="empty" /> <br /> <p>No notes in list  </p> </div>)}

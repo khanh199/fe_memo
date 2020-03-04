@@ -24,24 +24,27 @@ class Navi extends Component {
     _showCategories = (list) => {
         let notes = this.props.notes
         return list.map((item, index) => (
-            <Button
-                onClick={() => this.props.setCategoryIndex(item._id)} key={index}
-                className={`${item._id === this.props.categoryIndex ? 'active' : ''} category-item`}
-            >
-                <img src="./assets/images/tags-item.svg" alt="item" />
-                <p>{item.name}</p>
-                <div className="quantity">
-                    {notes.filter(x => x.category && x.category._id === item._id && x.deleted !== true).length}
-                </div>
-                <div className="control-cate">
-                    <div onClick={() => this.props.changePopup('edit-cate', item._id, item.name)}>
-                        <img src="./assets/images/pen.svg" height="15px" width="15px" alt="pen" />
+            <div className="category-item-cover" key={index}>
+                <Button
+                    onClick={() => this.props.setCategoryIndex(item._id)}
+                    className={`${item._id === this.props.categoryIndex ? 'active' : ''} category-item`}
+                >
+                    <img src="./assets/images/tags-item.svg" alt="item" />
+                    <p>{item.name}</p>
+                    <div className="quantity">
+                        {notes.filter(x => x.category && x.category._id === item._id && x.deleted !== true).length}
                     </div>
-                    <div onClick={() => this.props.deleteCategory(item._id)}>
-                        <img src="./assets/images/trash-1.svg" height="15px" width="15px" alt="trash" />
+                    <div className="control-cate">
+                        <div onClick={() => this.props.changePopup('edit-cate', item._id, item.name)}>
+                            <img src="./assets/images/pen.svg" height="15px" width="15px" alt="pen" />
+                        </div>
+                        <div onClick={() => this.props.deleteCategory(item._id)}>
+                            <img src="./assets/images/trash-1.svg" height="15px" width="15px" alt="trash" />
+                        </div>
                     </div>
-                </div>
-            </Button>)
+                </Button>
+            </div>
+        )
         )
     }
 
