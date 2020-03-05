@@ -46,12 +46,29 @@ export const actGetNotesRequest = () => {
     }
 }
 
+export const actGetNotesRequestAndIdCate = (idCate) => {
+    return (dispatch) => {
+        return callAPI(`notes/get-all`).then((res) => {
+            let Notes = res.data.rs.filter(n => n !== null);
+            dispatch(actGetNotesAndIdCate(Notes,idCate));
+        }).catch(e => console.log(e));
+    }
+}
+
 export const actGetNotes = (notes) => {
     return {
         type: types.GET_NOTES,
         notes
     }
 }
+export const actGetNotesAndIdCate = (notes, idCate) => {
+    return {
+        type: types.GET_NOTES,
+        notes,
+        idCate
+    }
+}
+
 
 export const actNewNote = (data) => {
     return (dispatch) => {
@@ -125,7 +142,7 @@ export const actSetClip = (status, id) => {
             dispatch(actGetNotesOnChangeClip({status,id}))
             return callAPI(`notes/set-clip-true/${id}`, 'PATCH')
                 .then((res) => {
-                    dispatch(actGetNotesRequest())
+                    dispatch(actGetNotesRequestAndIdCate(id))
                 }).catch(e => console.log(e));
         }
     else
@@ -133,7 +150,7 @@ export const actSetClip = (status, id) => {
             dispatch(actGetNotesOnChangeClip({status,id}))
             return callAPI(`notes/set-clip-false/${id}`, 'PATCH')
                 .then((res) => {
-                    dispatch(actGetNotesRequest())
+                    dispatch(actGetNotesRequestAndIdCate(id))
                 }).catch(e => console.log(e));
         }
 }

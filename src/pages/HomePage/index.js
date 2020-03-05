@@ -5,6 +5,7 @@ import Memo from '../../components/Memo'
 import { connect } from 'react-redux'
 import { actGetNotes, actNewCategory, actEditCategory } from '../../actions/index'
 import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
 
 
 class index extends Component {
@@ -14,15 +15,17 @@ class index extends Component {
         this.state = {
             popup: '',
             nameCate: '',
-            idCate:'',
-            statusControl:''
+            errTextInput: '',
+            idCate: '',
+            statusControl: ''
         }
     }
-    _changePopup = (status,idCate='',nameCate='') => {
+    _changePopup = (status, idCate = '', nameCate = '') => {
         this.setState({
             popup: status,
-            idCate : idCate,
-            nameCate:nameCate
+            idCate: idCate,
+            nameCate: nameCate,
+            errTextInput: ''
         })
     }
     _onChangeStatus = (status) => {
@@ -36,12 +39,36 @@ class index extends Component {
         })
     }
     _onSaveNewCate = () => {
-        this.props.newCategory({ name: this.state.nameCate })
-        this.setState({popup:''})
+        if (this.state.nameCate === '') {
+            this.setState({
+                errTextInput: 'Name category must not empty'
+            })
+        }
+        else if (this.state.nameCate.length > 15) {
+            this.setState({
+                errTextInput: 'Name category cannot be more than 15 characters'
+            })
+        }
+        else {
+            this.props.newCategory({ name: this.state.nameCate })
+            this.setState({ popup: '' })
+        }
     }
     _onSaveEditCate = () => {
-        this.props.editCategory({ id: this.state.idCate,name: this.state.nameCate })
-        this.setState({popup:''})
+        if (this.state.nameCate === '') {
+            this.setState({
+                errTextInput: 'Name category must not empty'
+            })
+        }
+        else if (this.state.nameCate.length > 35) {
+            this.setState({
+                errTextInput: 'Name category cannot be more than 15 characters'
+            })
+        }
+        else {
+            this.props.editCategory({ id: this.state.idCate, name: this.state.nameCate })
+            this.setState({ popup: '' })
+        }
     }
 
     render() {
@@ -53,11 +80,17 @@ class index extends Component {
                             Create category
                         </div>
                         <div className="popup__box__text-input">
-                            <input name="nameCate" value={this.state.nameCate} maxLength={14}  onChange={(e) => this._onChangeText(e)} />
+
+                            {!this.state.errTextInput ?
+                                (<TextField name="nameCate" autoFocus value={this.state.nameCate} label="Name category"  onChange={(e) => this._onChangeText(e)} />)
+                                :
+                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} value={this.state.nameCate} label="Name category"  onChange={(e) => this._onChangeText(e)} />)
+                            }
+
                         </div>
                         <div className="popup__box__control">
-                            <Button onClick={() => this._changePopup('','')}>Cancel</Button>
-                            <Button onClick={()=>this._onSaveNewCate()}>Save</Button>
+                            <Button onClick={() => this._changePopup('', '')}>Cancel</Button>
+                            <Button onClick={() => this._onSaveNewCate()}>Save</Button>
                         </div>
                     </div>
                 </div>) : null
@@ -68,19 +101,24 @@ class index extends Component {
                             Rename category
                         </div>
                         <div className="popup__box__text-input">
-                            <input name="nameCate" value={this.state.nameCate} maxLength={14} onChange={(e) => this._onChangeText(e)} />
+                            {!this.state.errTextInput ?
+                                (<TextField name="nameCate" autoFocus label="Name category" value={this.state.nameCate}  onChange={(e) => this._onChangeText(e)} />)
+                                :
+                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} label="Name category" value={this.state.nameCate}  onChange={(e) => this._onChangeText(e)} />)
+                            }
+
                         </div>
                         <div className="popup__box__control">
-                            <Button onClick={() => this._changePopup('','')}>Cancel</Button>
-                            <Button onClick={()=>this._onSaveEditCate()}>Save</Button>
+                            <Button onClick={() => this._changePopup('', '')}>Cancel</Button>
+                            <Button onClick={() => this._onSaveEditCate()}>Save</Button>
                         </div>
                     </div>
                 </div>) : null
                 }
-                <Navi  changePopup={this._changePopup} changeStatusControl = {this._onChangeStatus}/>
+                <Navi changePopup={this._changePopup} changeStatusControl={this._onChangeStatus} />
                 <div className="main-area">
-                    <MemoList changeStatusControl = {this._onChangeStatus}/>
-                    <Memo idCate = {this.state.idCate} statusControl={this.state.statusControl} changeStatusControl = {this._onChangeStatus}/>
+                    <MemoList changeStatusControl={this._onChangeStatus} />
+                    <Memo idCate={this.state.idCate} statusControl={this.state.statusControl} changeStatusControl={this._onChangeStatus} />
                 </div>
             </div>
         )
@@ -95,7 +133,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         newCategory: (data) => {
             dispatch(actNewCategory(data))
         },
-        editCategory: (data)=>{
+        editCategory: (data) => {
             dispatch(actEditCategory(data))
         }
     }

@@ -57,16 +57,16 @@ class Navi extends Component {
         return (
             <div className="menu-area">
                 <div className="category">
-                    <div className="create-new" onClick={() => this.props.changeStatusControl('new-note')}>
+                    <Button className="create-new" onClick={() => this.props.changeStatusControl('new-note')}>
                         <img src="./assets/images/plus-solid.svg" alt="+" />
-                        <span>Create New</span>
-                    </div>
+                        <span className="createNew">Create New</span>
+                    </Button>
                     <Button className={`menu-item ${this.props.categoryIndex === 0 ? 'active' : ''}`}
                         onClick={() => this.props.setCategoryIndex(0)}>
                         <img src="./assets/images/sticky-note-solid.svg" alt="all" />
                         <span>All Notes</span>
                         <div className="quantity">
-                            {notes.length}
+                            {notes.filter(x=>!x.deleted).length}
                         </div>
                     </Button>
 
@@ -128,6 +128,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         setCategoryIndex: (id) => {
             dispatch(actSetCategoryIndex(id))
+            
         },
         deleteCategory: (id) => {
             dispatch(actDeleteCategory(id))
@@ -137,7 +138,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mapStateToProps = (state, ownProps) => {
     return {
         categories: state.categories,
-        notes: state.notes,
+        notes: state.notes.notes,
         categoryIndex: state.categoryIndex
     }
 }

@@ -156,7 +156,7 @@ class Memo extends Component {
                                 onClick={() => this.setState({ openPopupCate: !this.state.openPopupCate })}
                                 className={`cate edit`}>
                                 <img src="./assets/images/tags-solid-dark.svg" alt="tag" />
-                                {this.props.categoryIndex === null || this.props.categoryIndex === '' || this.props.categoryIndex == 0 ? 'No category' : categories.find(x => x._id == this.props.categoryIndex).name}
+                                {this.props.categoryIndex === null || this.props.categoryIndex === '' || this.props.categoryIndex == 0 || this.props.categoryIndex == 'trash' || this.props.categoryIndex == 'clip' ? 'No category' : categories.find(x => x._id == this.props.categoryIndex).name}
                                 <div className={`cate_popup ${this.state.openPopupCate ? 'active' : ''}`}>
                                     <p className='title'>Add to category</p>
                                     <div className="cate_popup__list">
@@ -266,7 +266,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        notes: state.notes,
+        notes: state.notes.notesShow,
         noteIndex: state.noteIndex,
         categories: state.categories,
         categoryIndex: state.categoryIndex
