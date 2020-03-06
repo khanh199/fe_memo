@@ -6,7 +6,12 @@ import { connect } from 'react-redux'
 import { actGetNotes, actNewCategory, actEditCategory } from '../../actions/index'
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class index extends Component {
     constructor(props) {
@@ -17,7 +22,10 @@ class index extends Component {
             nameCate: '',
             errTextInput: '',
             idCate: '',
-            statusControl: ''
+            statusControl: '',
+            open: true,
+            severity: 'success',
+            contentMsg: 'Welcome back ^^ Have a beautiful day!'
         }
     }
     _changePopup = (status, idCate = '', nameCate = '') => {
@@ -70,10 +78,21 @@ class index extends Component {
             this.setState({ popup: '' })
         }
     }
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({ open: false })
+    };
 
     render() {
         return (
             <div className="wrapper">
+                <Snackbar open={this.state.open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert onClose={this.handleClose} severity={this.state.severity}>
+                        {this.state.contentMsg}
+                    </Alert>
+                </Snackbar>
                 {this.state.popup === 'new-cate' ? (<div className="popup">
                     <div className="popup__box">
                         <div className="popup__box__title">

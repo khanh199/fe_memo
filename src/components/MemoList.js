@@ -29,9 +29,9 @@ class MemoList extends Component {
                         return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0)
                 else
                     if (this.state.sortDesc)
-                        return (a.createDate > b.createDate) ? 1 : ((b.createDate > a.createDate) ? -1 : 0)
+                        return (moment(a.createDate) > moment(b.createDate)) ? 1 : ((moment(b.createDate) > moment(a.createDate)) ? -1 : 0)
                     else
-                        return (a.createDate > b.createDate) ? -1 : ((b.createDate > a.createDate) ? 1 : 0)
+                        return (moment(a.createDate) > moment(b.createDate)) ? -1 : ((moment(b.createDate) > moment(a.createDate)) ? 1 : 0)
             }).map((item, index) => {
                 if (item.title.includes(this.state.keySearch))
                     return (
@@ -58,7 +58,7 @@ class MemoList extends Component {
         }
         return []
     }
-    
+
     _onChooseMemo = (id) => {
         this.props.changeNoteIndex(id)
         this.props.changeStatusControl('')
@@ -66,7 +66,7 @@ class MemoList extends Component {
 
     render() {
         let lsNotes = this.props.notes;
-        let shows = this._showMemoItem(lsNotes) 
+        let shows = this._showMemoItem(lsNotes)
         return (
             <div className="title-area">
                 <div className="search-box">

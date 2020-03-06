@@ -3,6 +3,8 @@
 @import "./base/variable";
 span.MuiButton-label {
   justify-content: flex-start;
+  text-transform: none;
+  font-family: $FuturaPT;
 }
 button.MuiButton-root {
   line-height: unset;
@@ -523,7 +525,6 @@ button.MuiButton-root {
             background: rgba(255, 241, 232, 1);
             color: rgba(254, 128, 51, 1);
           }
-          &.save,
           &.clip {
             margin-left: 15px;
           }
@@ -541,6 +542,7 @@ button.MuiButton-root {
             color: rgba(255, 255, 255, 0.93);
           }
           &.restore {
+            margin-left: 20px;
             background: rgba(49, 63, 70, 1) 0% 0% no-repeat padding-box;
             color: rgba(255, 255, 255, 0.93);
             width: 90px;
@@ -567,6 +569,7 @@ button.MuiButton-root {
               &.edit {
                 border: 1px solid rgba(222, 222, 222, 0.5);
                 border-radius: 20px;
+                min-width: 120px;
                 cursor: pointer;
                 &:hover {
                   background: rgba(222, 222, 222, 0.2);

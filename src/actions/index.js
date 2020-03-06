@@ -48,9 +48,10 @@ export const actGetNotesRequest = () => {
 
 export const actGetNotesRequestAndIdCate = (idCate) => {
     return (dispatch) => {
+        dispatch(actSetCategoryIndex(idCate))
         return callAPI(`notes/get-all`).then((res) => {
             let Notes = res.data.rs.filter(n => n !== null);
-            dispatch(actGetNotesAndIdCate(Notes,idCate));
+            dispatch(actGetNotesAndIdCate(Notes, idCate));
         }).catch(e => console.log(e));
     }
 }
@@ -83,7 +84,7 @@ export const actEditNote = (data) => {
     return (dispatch) => {
         return callAPI(`notes/edit/${data.id}`, 'PATCH', data)
             .then((res) => {
-                dispatch(actGetNotesRequest())
+                dispatch(actGetNotesRequestAndIdCate(data.category ? data.category : 0))
             }).catch(e => console.log(e));
     }
 }
@@ -139,18 +140,16 @@ export const actGetNotesOnChangeClip = (action) => {
 export const actSetClip = (status, id) => {
     if (status)
         return (dispatch) => {
-            dispatch(actGetNotesOnChangeClip({status,id}))
+            dispatch(actGetNotesOnChangeClip({ status, id }))
             return callAPI(`notes/set-clip-true/${id}`, 'PATCH')
                 .then((res) => {
-                    dispatch(actGetNotesRequestAndIdCate(id))
                 }).catch(e => console.log(e));
         }
     else
         return (dispatch) => {
-            dispatch(actGetNotesOnChangeClip({status,id}))
+            dispatch(actGetNotesOnChangeClip({ status, id }))
             return callAPI(`notes/set-clip-false/${id}`, 'PATCH')
                 .then((res) => {
-                    dispatch(actGetNotesRequestAndIdCate(id))
                 }).catch(e => console.log(e));
         }
 }
@@ -159,7 +158,7 @@ export const actDeleteNoteToTrash = (id) => {
     return (dispatch) => {
         return callAPI(`notes/delete_to_trash/${id}`, 'PATCH')
             .then((res) => {
-                dispatch(actGetNotesRequest())
+                dispatch(actGetNotesRequestAndIdCate('trash'))
             }).catch(e => console.log(e));
     }
 }
@@ -168,16 +167,23 @@ export const actRestoreNote = (id) => {
     return (dispatch) => {
         return callAPI(`notes/restore/${id}`, 'PATCH')
             .then((res) => {
-                dispatch(actGetNotesRequest())
+                dispatch(actGetNotesRequestAndIdCate(0))
             }).catch(e => console.log(e));
+    }
+}
+
+export const actGetNotesAfterDelete = (id) => {
+    return {
+        type: types.GET_NOTES_AFTER_DELETE,
+        id
     }
 }
 
 export const actDeleteNote = (id) => {
     return (dispatch) => {
+        dispatch(actGetNotesAfterDelete(id))
         return callAPI(`notes/delete/${id}`, 'DELETE')
             .then((res) => {
-                dispatch(actGetNotesRequest())
             }).catch(e => console.log(e));
     }
 }

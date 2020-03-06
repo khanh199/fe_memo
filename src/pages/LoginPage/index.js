@@ -5,8 +5,14 @@ import fakeAuth from '../../auth'
 import { Redirect } from 'react-router-dom'
 import $ from 'jquery'
 import { connect } from 'react-redux'
-import {actGetCategoriesRequest, actGetNotesRequest} from '../../actions/index'
+import { actGetCategoriesRequest, actGetNotesRequest } from '../../actions/index'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class index extends Component {
     constructor(props) {
@@ -14,9 +20,18 @@ class index extends Component {
         this.state = {
             email: '',
             password: '',
-            authToken: false
+            authToken: false,
+            open: false,
+            severity: 'error',
+            contentMsg: ''
         }
     }
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        this.setState({ open: false })
+    };
 
     _onChangeInput = (e) => {
         this.setState({
@@ -52,6 +67,78 @@ class index extends Component {
                 }, 1000);
 
             })
+            .catch(x => {
+                this.setState({
+                    open: true,
+                    contentMsg: 'Email or password is incorrect !!!',
+                    severity: 'error'
+                })
+            })
+    }
+    _onSignUp = () => {
+        let { email, password } = this.state
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(String(email).toLowerCase())) {
+            this.setState({
+                severity: 'error',
+                contentMsg: 'Invalid email !!!',
+                open: true
+            })
+        }
+        else if (password.length < 9) {
+            this.setState({
+                severity: 'error',
+                contentMsg: 'Password must be greater than 8 characters !!!',
+                open: true
+            })
+        }
+        else {
+            axios.post(`${URL_API}/users/signup`, { email, password, name: 'Guest' })
+                .then(rs => {
+                    console.log(123);
+
+                    this.setState({
+                        severity: 'success',
+                        contentMsg: 'Sign up success ^^',
+                        open: true,
+                        email: '',
+                        password: ''
+                    })
+                    $(".shape").css({
+                        "width": "100%",
+                        "height": "100%",
+                        "transform": "rotate(0deg)"
+                    })
+
+                    setTimeout(function () {
+                        $(".overbox").css({
+                            "overflow": "initial"
+                        })
+                    }, 600)
+
+                    $('.alt-2').animate({
+                        "width": "140px",
+                        "height": "140px"
+                    }, 500, function () {
+                        $(".box").removeClass("back");
+
+                        $('.alt-2').removeClass('active')
+                    });
+
+                    $(".overbox .title").fadeOut(300);
+                    $(".overbox .input").fadeOut(300);
+                    $(".overbox .button").fadeOut(300);
+
+                    $(".alt-2").addClass('material-buton');
+                })
+                .catch((err) => {
+                    this.setState({
+                        severity: 'error',
+                        contentMsg: 'Email exists  !!!',
+                        open: true
+                    })
+                })
+        }
     }
 
     _checkToken = () => {
@@ -101,23 +188,6 @@ class index extends Component {
             }
         });
 
-        // $(".button").click(function (e) {
-        //     var pX = e.pageX,
-        //         pY = e.pageY,
-        //         oX = parseInt($('.login').offset().left),
-        //         oY = parseInt($('.login').offset().top);
-
-        //     $('.login').append('<span class="click-efect x-' + oX + ' y-' + oY + '" style="margin-left:' + (pX - oX) + 'px;margin-top:' + (pY - oY) + 'px;"></span>')
-        //     $('.x-' + oX + '.y-' + oY + '').animate({
-        //         "width": "500px",
-        //         "height": "500px",
-        //         "top": "-250px",
-        //         "left": "-250px",
-
-        //     }, 600);
-        //     $("button", '.login').addClass('active');
-        // })
-
         $(".alt-2").click(function () {
             if (!$(this).hasClass('material-button')) {
                 $(".shape").css({
@@ -151,8 +221,6 @@ class index extends Component {
         })
 
         $(".material-button").click(function () {
-            console.log(this);
-
             if ($('.alt-2').hasClass('material-button')) {
                 setTimeout(function () {
                     $(".overbox").css({
@@ -196,20 +264,18 @@ class index extends Component {
         if (this.state.authToken === true)
             return <Redirect to='/' />
         return (
-            // <div>
-            //     <form onSubmit={this._onSubmit} className="form-login" >
-            //         <h2>Login</h2>
-            //         <input type='text' name='email' placeholder='email' onChange={this._onChangeInput} autoComplete='off' />
-            //         <input type='password' name='password' placeholder='password' onChange={this._onChangeInput} autoComplete='off' />
-            //         <button type='submit'> OK</button>
-            //     </form>
-            // </div>
+
             <div id="login-page">
+                <Snackbar open={this.state.open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={this.handleClose}>
+                    <Alert onClose={this.handleClose} severity={this.state.severity}>
+                        {this.state.contentMsg}
+                    </Alert>
+                </Snackbar>
                 <div className="materialContainer">
                     <div className="box">
                         <div className="title">LOGIN</div>
                         <div className="input">
-                            <label htmlFor="name">Username</label>
+                            <label htmlFor="name">Email</label>
                             <input type="text" name="email" onChange={this._onChangeInput} value={this.state.email} id="name" />
                             <span className="spin" />
                         </div>
@@ -225,7 +291,7 @@ class index extends Component {
                         </div>
                         <a className="pass-forgot">
                             Forgot your password?
-                    </a>
+                        </a>
                     </div>
                     <div className="overbox">
                         <div className="material-button alt-2">
@@ -233,25 +299,22 @@ class index extends Component {
                         </div>
                         <div className="title">REGISTER</div>
                         <div className="input">
-                            <label htmlFor="regname">Username</label>
-                            <input type="text" name="regname" id="regname" />
+                            <label htmlFor="regname">Email</label>
+                            <input type="text" name="regname" id="regname" onChange={e => this.setState({ email: e.target.value })} />
                             <span className="spin" />
                         </div>
                         <div className="input">
                             <label htmlFor="regpass">Password</label>
-                            <input type="password" name="regpass" id="regpass" />
+                            <input type="password" name="regpass" id="regpass" onChange={e => this.setState({ password: e.target.value })} />
                             <span className="spin" />
                         </div>
-                        <div className="input">
-                            <label htmlFor="reregpass">Repeat Password</label>
-                            <input type="password" name="reregpass" id="reregpass" />
-                            <span className="spin" />
-                        </div>
-                        <div className="button">
+                        <div className="button" onClick={this._onSignUp}>
                             <button>
                                 <span>NEXT</span>
                             </button>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -268,4 +331,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     }
 }
-export default connect (null, mapDispatchToProps)(index)
+export default connect(null, mapDispatchToProps)(index)

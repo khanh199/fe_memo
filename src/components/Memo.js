@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { actNewNote, actEditNote, actSetClip, actDeleteNoteToTrash, actRestoreNote, actDeleteNote } from '../actions/index'
+import { actNewNote, actEditNote, actSetClip, actSetNoteIndex, actDeleteNoteToTrash, actRestoreNote, actDeleteNote } from '../actions/index'
 import moment from 'moment'
-import Calendar from 'react-calendar'
+import Button from "@material-ui/core/Button"
+
 class Memo extends Component {
     constructor(props) {
         super(props)
@@ -54,14 +55,14 @@ class Memo extends Component {
     _onEdit = () => {
         let { notes, noteIndex } = this.props
         let noteItem = notes.find(x => x._id === noteIndex)
-        
+
         this.setState({
             id: noteIndex,
             title: noteItem.title,
             content: noteItem.content,
             clip: noteItem.clip,
             category: noteItem.category ? noteItem.category._id : null,
-            createDate: noteItem.createDate 
+            createDate: noteItem.createDate
         })
         this.props.changeStatusControl('edit-note')
 
@@ -79,22 +80,22 @@ class Memo extends Component {
         if (statusControl === 'edit-note') {
             return (
                 <div className="memo-area">
-                    
+
                     <div className="tools-bar">
                         <div className="tools3">
-                            <div className="tools-bar__item save" onClick={this._onSaveEdit}>
+                            <Button className="tools-bar__item save" onClick={this._onSaveEdit}>
                                 <img src="./assets/images/save-solid.svg" alt="save" />
                                 Save
-                            </div>
-                            <div className={`tools-bar__item clip ${this.state.clip ? 'active' : ''}`} onClick={() => this.setState({ clip: !this.state.clip })}>
+                            </Button>
+                            <Button className={`tools-bar__item clip ${this.state.clip ? 'active' : ''}`} onClick={() => this.setState({ clip: !this.state.clip })}>
                                 <img src="./assets/images/paperclip-solid1.svg" alt="clip" />
                                 Clip
-                            </div>
+                            </Button>
                         </div>
-                        <div className="tools-bar__item delete">
+                        <Button className="tools-bar__item delete">
                             <img src="./assets/images/trash-solid.svg" alt="trash" />
                             Delete
-                        </div>
+                        </Button>
                     </div>
                     <div className="memo-detail">
                         <div className="memo-detail--info">
@@ -103,7 +104,7 @@ class Memo extends Component {
                                 {moment(this.state.createDate).format('YYYY/MM/DD')}
                                 {/* <Calendar className="date-time-picker active" value={new Date(this.state.createDate)} /> */}
                             </div>
-                            
+
                             <div
                                 onClick={() => this.setState({ openPopupCate: !this.state.openPopupCate })}
                                 className={`cate edit`}>
@@ -132,19 +133,19 @@ class Memo extends Component {
                 <div className="memo-area">
                     <div className="tools-bar">
                         <div className="tools3">
-                            <div className="tools-bar__item save" onClick={this._onSaveNew}>
+                            <Button className="tools-bar__item save" onClick={this._onSaveNew}>
                                 <img src="./assets/images/save-solid.svg" alt="save" />
                                 Save
-                            </div>
-                            <div className={`tools-bar__item clip ${this.state.clip ? 'active' : ''}`} onClick={() => this.setState({ clip: !this.state.clip })}>
+                            </Button>
+                            <Button className={`tools-bar__item clip ${this.state.clip ? 'active' : ''}`} onClick={() => this.setState({ clip: !this.state.clip })}>
                                 <img src="./assets/images/paperclip-solid1.svg" alt="clip" />
                                 Clip
-                            </div>
+                            </Button>
                         </div>
-                        <div className="tools-bar__item delete">
+                        <Button className="tools-bar__item delete">
                             <img src="./assets/images/trash-solid.svg" alt="trash" />
                             Delete
-                        </div>
+                        </Button>
                     </div>
                     <div className="memo-detail">
                         <div className="memo-detail--info">
@@ -178,36 +179,42 @@ class Memo extends Component {
 
 
         let noteItem = notes.find(x => x._id === noteIndex)
-        if (!noteItem)
+        if (!noteItem) {
             noteItem = notes[0]
+            if (noteItem) {
+                this.props.setNoteIndex(noteItem._id)
+            }
+        }
+
         if (noteItem)
             return (
                 <div className="memo-area">
                     <div className="tools-bar">
-                        <div className="tools3">
-                            <div className="tools-bar__item edit" onClick={() => this._onEdit()}>
-                                <img src="./assets/images/pen-solid.svg" alt="pen" />
-                                Edit
+                        {this.props.categoryIndex === 'trash' ? (<div className="tools3"></div>) : (
+                            <div className="tools3">
+                                <Button className="tools-bar__item edit" onClick={() => this._onEdit()}>
+                                    <img src="./assets/images/pen-solid.svg" alt="pen" />
+                                    Edit
+                                </Button>
+                                <Button className={`tools-bar__item clip ${noteItem.clip ? 'active' : ''}`} onClick={() => this.props.setClip(!noteItem.clip, noteItem._id)}>
+                                    <img src="./assets/images/paperclip-solid1.svg" alt="clip" />
+                                    Clip
+                            </Button>
                             </div>
-                            <div className={`tools-bar__item clip ${noteItem.clip ? 'active' : ''}`} onClick={() => this.props.setClip(!noteItem.clip, noteItem._id)}>
-                                <img src="./assets/images/paperclip-solid1.svg" alt="clip" />
-                                Clip
-                            </div>
-                        </div>
-                        <div className="tools3">
+                        )}
 
-                            {this.props.categoryIndex === 'trash' ? (<div className="tools-bar__item delete forever" onClick={() => this.props.deleteNoteForever(noteItem._id)}>
+                        <div className="tools3">
+                            {this.props.categoryIndex === 'trash' ? (<Button className="tools-bar__item delete forever" onClick={() => this.props.deleteNoteForever(noteItem._id)}>
                                 <img src="./assets/images/trash-solid.svg" alt="trash" />
                                 Delete
-                            </div>) : (<div className="tools-bar__item delete" onClick={() => this.props.deleteToTrash(noteItem._id)}>
+                            </Button>) : (<Button className="tools-bar__item delete" onClick={() => this.props.deleteToTrash(noteItem._id)}>
                                     <img src="./assets/images/trash-solid.svg" alt="trash" />
                                     Delete
-                            </div>)}
-                            {this.props.categoryIndex === 'trash' ? (<div className="tools-bar__item restore" onClick={() => this.props.restoreNote(noteItem._id)}>
+                            </Button>)}
+                            {this.props.categoryIndex === 'trash' ? (<Button className="tools-bar__item restore" onClick={() => this.props.restoreNote(noteItem._id)}>
                                 <img src="./assets/images/restore.svg" height="15px" width="15px" alt="trash" />
                                 Restore
-                            </div>) : null}
-
+                            </Button>) : null}
                         </div>
 
                     </div>
@@ -249,8 +256,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         editNote: (data) => {
             dispatch(actEditNote(data))
         },
-        setClip: (status, id) => {
-            dispatch(actSetClip(status, id))
+        setClip: (status, id, cateIndex) => {
+            dispatch(actSetClip(status, id, cateIndex))
         },
         deleteToTrash: (id) => {
             dispatch(actDeleteNoteToTrash(id))
@@ -260,6 +267,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         deleteNoteForever: (id) => {
             dispatch(actDeleteNote(id))
+        },
+        setNoteIndex: (id) => {
+            dispatch(actSetNoteIndex(id))
         }
     }
 }
