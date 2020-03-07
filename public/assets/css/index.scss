@@ -9,6 +9,13 @@ span.MuiButton-label {
 button.MuiButton-root {
   line-height: unset;
 }
+.ant-picker-input > input {
+  color: black !important;
+  font-family: $FuturaPT;
+}
+.ant-picker-panel-container {
+  font-family: $FuturaPT !important;
+}
 
 .wrapper {
   display: grid;
@@ -16,6 +23,7 @@ button.MuiButton-root {
   font-family: $FuturaPT;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 
   .popup {
     position: fixed;
@@ -47,7 +55,6 @@ button.MuiButton-root {
           border-bottom: 2px solid rgba(222, 222, 222, 0.5);
           width: 100%;
           // font-size: 20px;
-          
         }
       }
       &__control {
@@ -264,7 +271,7 @@ button.MuiButton-root {
       padding-left: 26px;
       max-height: calc(100vh - 320px);
       overflow-y: auto;
-      transition: all .5s ease-in-out;
+      transition: all 0.5s ease-in-out;
 
       &.hidden {
         display: none;
@@ -302,7 +309,7 @@ button.MuiButton-root {
           right: 10px;
           width: 40px;
           height: 30px;
-          // background: #454e55 0% 0% no-repeat padding-box;
+          background: #2e383f;
           border-radius: 50px;
           align-items: center;
           justify-content: center;
@@ -431,7 +438,7 @@ button.MuiButton-root {
           height: 100%;
         }
         height: calc(100vh - 120px);
-        
+
         .memo-item {
           min-height: 79px;
           padding-top: 15px;
@@ -456,6 +463,7 @@ button.MuiButton-root {
           }
           &.active {
             border-left: 5px solid #fe6100;
+            background: rgba($color: #e09566, $alpha: 0.1);
           }
           &.clip {
             .clip-memo-item {
@@ -566,6 +574,8 @@ button.MuiButton-root {
             &.time {
               padding: 10px;
               position: relative;
+              display: flex;
+              align-items: center;
               &.edit {
                 border: 1px solid rgba(222, 222, 222, 0.5);
                 border-radius: 20px;
@@ -681,6 +691,21 @@ button.MuiButton-root {
             color: rgba(43, 49, 55, 1);
             font-size: 16px;
             letter-spacing: 0.2px;
+            /* Let's get this party started */
+            &::-webkit-scrollbar {
+              width: 7px;
+            }
+
+            /* Track */
+            &::-webkit-scrollbar-track {
+              -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Handle */
+            &::-webkit-scrollbar-thumb {
+              background: rgba(222, 222, 222, 0.4);
+              -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+            }
           }
         }
       }
@@ -703,7 +728,7 @@ button.MuiButton-root {
   background-size: cover;
   background-repeat: no-repeat;
   min-height: 100vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   overflow: hidden;
   width: 100%;
   height: 100vh;
@@ -727,7 +752,7 @@ button.MuiButton-root {
     -webkit-transform: scale(0.95);
     -ms-transform: scale(0.95);
     top: -20px;
-    opacity: .8;
+    opacity: 0.8;
     z-index: -1;
   }
 
@@ -762,7 +787,7 @@ button.MuiButton-root {
   font-size: 34px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #ED2553;
+  color: #ed2553;
   position: relative;
 
   &:before {
@@ -772,7 +797,7 @@ button.MuiButton-root {
     position: absolute;
     top: 0;
     left: -50px;
-    background: #ED2553;
+    background: #ed2553;
   }
 }
 
@@ -781,7 +806,9 @@ button.MuiButton-root {
   -webkit-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   -ms-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  label, input, .spin {
+  label,
+  input,
+  .spin {
     transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     -ms-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -801,7 +828,8 @@ button.MuiButton-root {
 }
 
 .material-button .shape {
-  &:before, &:after {
+  &:before,
+  &:after {
     transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     -ms-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -814,7 +842,11 @@ button.MuiButton-root {
   -ms-transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.material-button, .alt-2, .material-button .shape, .alt-2 .shape, .box {
+.material-button,
+.alt-2,
+.material-button .shape,
+.alt-2 .shape,
+.box {
   transition: 400ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transition: 400ms cubic-bezier(0.4, 0, 0.2, 1);
   -ms-transition: 400ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -824,7 +856,9 @@ button.MuiButton-root {
   width: 100%;
   float: left;
 
-  label, input, .spin {
+  label,
+  input,
+  .spin {
     width: 100%;
     float: left;
   }
@@ -840,7 +874,8 @@ button.MuiButton-root {
   }
 }
 
-.input, .button {
+.input,
+.button {
   margin-top: 30px;
   height: 70px;
 }
@@ -867,14 +902,14 @@ button.MuiButton-root {
     top: 10px;
     border: none;
     background: transparent;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 24px;
     color: rgba(0, 0, 0, 0.8);
     font-weight: 300;
   }
 
   label {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 24px;
     color: rgba(0, 0, 0, 0.8);
     font-weight: 300;
@@ -882,14 +917,15 @@ button.MuiButton-root {
 }
 
 .button button {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 24px;
   color: rgba(0, 0, 0, 0.8);
   font-weight: 300;
 }
 
 .input {
-  &:before, .spin {
+  &:before,
+  .spin {
     width: 100%;
     height: 1px;
     position: absolute;
@@ -904,7 +940,7 @@ button.MuiButton-root {
   }
 
   .spin {
-    background: #ED2553;
+    background: #ed2553;
     z-index: 4;
     width: 0;
   }
@@ -965,7 +1001,7 @@ button.MuiButton-root {
 
   button {
     background-color: #fff;
-    color: #ED2553;
+    color: #ed2553;
     border: none;
   }
 
@@ -1002,8 +1038,8 @@ button.MuiButton-root {
     }
 
     &:hover {
-      color: #ED2553;
-      border-color: #ED2553;
+      color: #ed2553;
+      border-color: #ed2553;
     }
   }
 
@@ -1030,7 +1066,7 @@ button.MuiButton-root {
   position: absolute;
   top: 0;
   left: 0;
-  background: #ED2553;
+  background: #ed2553;
   border-radius: 50%;
 }
 
@@ -1044,7 +1080,9 @@ button.MuiButton-root {
   border-radius: 10px;
   padding: 60px 50px 40px 50px;
 
-  .title, .button, .input {
+  .title,
+  .button,
+  .input {
     z-index: 111;
     position: relative;
     color: #fff !important;
@@ -1058,12 +1096,14 @@ button.MuiButton-root {
   .input {
     margin-top: 20px;
 
-    input, label {
+    input,
+    label {
       color: #fff;
     }
   }
 
-  .material-button, .alt-2 {
+  .material-button,
+  .alt-2 {
     display: block;
 
     .shape {
@@ -1072,11 +1112,12 @@ button.MuiButton-root {
   }
 }
 
-.material-button, .alt-2 {
+.material-button,
+.alt-2 {
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: #ED2553;
+  background: #ed2553;
   position: absolute;
   top: 40px;
   right: -70px;
@@ -1087,7 +1128,8 @@ button.MuiButton-root {
   -ms-transform: translate(0%, 0%);
 }
 
-.material-button .shape, .alt-2 .shape {
+.material-button .shape,
+.alt-2 .shape {
   position: absolute;
   top: 0;
   right: 0;
@@ -1095,7 +1137,10 @@ button.MuiButton-root {
   height: 100%;
 }
 
-.material-button .shape:before, .alt-2 .shape:before, .material-button .shape:after, .alt-2 .shape:after {
+.material-button .shape:before,
+.alt-2 .shape:before,
+.material-button .shape:after,
+.alt-2 .shape:after {
   content: "";
   background: #fff;
   position: absolute;
@@ -1106,26 +1151,26 @@ button.MuiButton-root {
   -ms-transform: translate(-50%, -50%) rotate(360deg);
 }
 
-.material-button .shape:before, .alt-2 .shape:before {
+.material-button .shape:before,
+.alt-2 .shape:before {
   width: 25px;
   height: 4px;
 }
 
-.material-button .shape:after, .alt-2 .shape:after {
+.material-button .shape:after,
+.alt-2 .shape:after {
   height: 25px;
   width: 4px;
 }
 
-.material-button.active, .alt-2.active {
+.material-button.active,
+.alt-2.active {
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%) rotate(0deg);
   -webkit-transform: translate(50%, -50%) rotate(0deg);
   -ms-transform: translate(50%, -50%) rotate(0deg);
 }
-
-
-
 
 .materialContainer {
   width: 100%;
@@ -1148,7 +1193,8 @@ button.MuiButton-root {
   list-style-type: none;
   outline: none;
 
-  &:after, &::before {
+  &:after,
+  &::before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1159,7 +1205,6 @@ button.MuiButton-root {
     outline: none;
   }
 }
-
 
 .btn {
   line-height: 31px;
@@ -1189,17 +1234,21 @@ button.MuiButton-root {
   margin-left: 7px;
 }
 
-.z-depth-1, .btn, .btn-floating {
+.z-depth-1,
+.btn,
+.btn-floating {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
-.z-depth-1-half, .btn:hover, .btn-floating:hover {
+.z-depth-1-half,
+.btn:hover,
+.btn-floating:hover {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 
 .btn-default {
   color: #fff;
-  background-color: #2BBBAD;
+  background-color: #2bbbad;
 }
 
 .btn-default:hover,

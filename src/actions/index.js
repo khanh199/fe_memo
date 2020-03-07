@@ -21,6 +21,17 @@ export const actSetAuthTrue = () => {
     }
 }
 
+export const actSetProgressTrue = () => {
+    return {
+        type: types.SET_PROGRESS_TRUE
+    }
+}
+export const actSetProgressFalse = () => {
+    return {
+        type: types.SET_PROGRESS_FALSE
+    }
+}
+
 export const actGetCategoriesRequest = () => {
     return (dispatch) => {
         return callAPI(`categories`).then((res) => {
@@ -73,18 +84,31 @@ export const actGetNotesAndIdCate = (notes, idCate) => {
 
 export const actNewNote = (data) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`notes/new-note`, 'POST', data)
             .then((res) => {
                 dispatch(actGetNotesRequest())
+                dispatch(actSetProgressFalse())
             }).catch(e => console.log(e));
     }
 }
 
 export const actEditNote = (data) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`notes/edit/${data.id}`, 'PATCH', data)
             .then((res) => {
                 dispatch(actGetNotesRequestAndIdCate(data.category ? data.category : 0))
+                dispatch(actSetProgressFalse())
+            }).catch(e =>  dispatch(actSetProgressFalse()));
+    }
+}
+
+export const actChangeIdCate = (data) => {
+    return (dispatch) => {
+        return callAPI(`notes/change-idcate/${data.idMemo}`, 'PATCH', data)
+            .then((res) => {
+                dispatch(actGetNotesRequestAndIdCate(data.idCate ? data.idCate : 0))
             }).catch(e => console.log(e));
     }
 }
@@ -105,28 +129,36 @@ export const actSetCategoryIndex = (value) => {
 
 export const actNewCategory = (data) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`categories/new-cate`, 'POST', data)
             .then((res) => {
                 dispatch(actGetCategoriesRequest())
-            }).catch(e => console.log(e));
+                dispatch(actSetProgressFalse())
+            }).catch(e =>  dispatch(actSetProgressFalse()));
     }
 }
 
 export const actEditCategory = (data) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`categories/edit/${data.id}`, 'PATCH', data)
             .then((res) => {
                 dispatch(actGetCategoriesRequest())
-            }).catch(e => console.log(e));
+                dispatch(actSetProgressFalse())
+            }).catch(e => dispatch(actSetProgressFalse()))
     }
 }
 
 export const actDeleteCategory = (id) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`categories/${id}`, 'DELETE')
             .then((res) => {
                 dispatch(actGetCategoriesRequest())
-            }).catch(e => console.log(e));
+                dispatch(actSetProgressFalse())
+            }).catch(e => {
+                dispatch(actSetProgressFalse())
+            });
     }
 }
 
@@ -156,18 +188,22 @@ export const actSetClip = (status, id) => {
 
 export const actDeleteNoteToTrash = (id) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`notes/delete_to_trash/${id}`, 'PATCH')
             .then((res) => {
                 dispatch(actGetNotesRequestAndIdCate('trash'))
+                dispatch(actSetProgressFalse())
             }).catch(e => console.log(e));
     }
 }
 
 export const actRestoreNote = (id) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         return callAPI(`notes/restore/${id}`, 'PATCH')
             .then((res) => {
                 dispatch(actGetNotesRequestAndIdCate(0))
+                dispatch(actSetProgressFalse())
             }).catch(e => console.log(e));
     }
 }
@@ -181,9 +217,11 @@ export const actGetNotesAfterDelete = (id) => {
 
 export const actDeleteNote = (id) => {
     return (dispatch) => {
+        dispatch(actSetProgressTrue())
         dispatch(actGetNotesAfterDelete(id))
         return callAPI(`notes/delete/${id}`, 'DELETE')
             .then((res) => {
+                dispatch(actSetProgressFalse())
             }).catch(e => console.log(e));
     }
 }

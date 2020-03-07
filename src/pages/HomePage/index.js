@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -25,7 +26,8 @@ class index extends Component {
             statusControl: '',
             open: true,
             severity: 'success',
-            contentMsg: 'Welcome back ^^ Have a beautiful day!'
+            contentMsg: 'Welcome back ^^ Have a nice day!',
+
         }
     }
     _changePopup = (status, idCate = '', nameCate = '') => {
@@ -52,9 +54,9 @@ class index extends Component {
                 errTextInput: 'Name category must not empty'
             })
         }
-        else if (this.state.nameCate.length > 15) {
+        else if (this.state.nameCate.length > 30) {
             this.setState({
-                errTextInput: 'Name category cannot be more than 15 characters'
+                errTextInput: 'Name category cannot be more than 30 characters'
             })
         }
         else {
@@ -68,9 +70,9 @@ class index extends Component {
                 errTextInput: 'Name category must not empty'
             })
         }
-        else if (this.state.nameCate.length > 35) {
+        else if (this.state.nameCate.length > 30) {
             this.setState({
-                errTextInput: 'Name category cannot be more than 15 characters'
+                errTextInput: 'Name category cannot be more than 30 characters'
             })
         }
         else {
@@ -85,14 +87,19 @@ class index extends Component {
         this.setState({ open: false })
     };
 
+
+
     render() {
         return (
             <div className="wrapper">
+                <LinearProgress style={{ position: "absolute", width: "100%", zIndex: '999', height: '2px', display: this.props.progress ? 'block' : 'none' }} />
+
                 <Snackbar open={this.state.open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={this.handleClose}>
                     <Alert onClose={this.handleClose} severity={this.state.severity}>
                         {this.state.contentMsg}
                     </Alert>
                 </Snackbar>
+
                 {this.state.popup === 'new-cate' ? (<div className="popup">
                     <div className="popup__box">
                         <div className="popup__box__title">
@@ -101,9 +108,9 @@ class index extends Component {
                         <div className="popup__box__text-input">
 
                             {!this.state.errTextInput ?
-                                (<TextField name="nameCate" autoFocus value={this.state.nameCate} label="Name category"  onChange={(e) => this._onChangeText(e)} />)
+                                (<TextField name="nameCate" autoFocus value={this.state.nameCate} label="Name category" onChange={(e) => this._onChangeText(e)} />)
                                 :
-                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} value={this.state.nameCate} label="Name category"  onChange={(e) => this._onChangeText(e)} />)
+                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} value={this.state.nameCate} label="Name category" onChange={(e) => this._onChangeText(e)} />)
                             }
 
                         </div>
@@ -121,9 +128,9 @@ class index extends Component {
                         </div>
                         <div className="popup__box__text-input">
                             {!this.state.errTextInput ?
-                                (<TextField name="nameCate" autoFocus label="Name category" value={this.state.nameCate}  onChange={(e) => this._onChangeText(e)} />)
+                                (<TextField name="nameCate" autoFocus label="Name category" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />)
                                 :
-                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} label="Name category" value={this.state.nameCate}  onChange={(e) => this._onChangeText(e)} />)
+                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} label="Name category" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />)
                             }
 
                         </div>
@@ -138,6 +145,7 @@ class index extends Component {
                 <div className="main-area">
                     <MemoList changeStatusControl={this._onChangeStatus} />
                     <Memo idCate={this.state.idCate} statusControl={this.state.statusControl} changeStatusControl={this._onChangeStatus} />
+
                 </div>
             </div>
         )
@@ -157,5 +165,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     }
 }
+const mapStateToProps = (state, ownProps) => {
+    return {
+        progress: state.progress
+    }
+}
 
-export default connect(null, mapDispatchToProps)(index)
+export default connect(mapStateToProps, mapDispatchToProps)(index)
