@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.scss';
+// import './App.scss';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import routers from './routers'
 import fakeAuth from './auth'
