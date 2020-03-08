@@ -352,7 +352,9 @@ button.MuiButton-root {
 .control-nav {
   width: 100vw;
   height: 50px;
-  background: #313f46;
+  background: #222f3e;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: none;
   justify-content: space-around;
   align-items: center; }
@@ -1408,6 +1410,12 @@ a.waves-effect .waves-ripple {
     height: calc(100vh - 50px); }
 
   .control-nav {
-    display: flex; } }
+    display: flex; }
+    .control-nav__icon {
+      color: #8395a7; }
+      .control-nav__icon:hover {
+        color: #576574; }
+      .control-nav__icon.active {
+        color: #ecf0f1; } }
 
 /*# sourceMappingURL=index.css.map */

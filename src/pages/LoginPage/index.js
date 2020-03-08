@@ -265,7 +265,7 @@ class index extends Component {
             return <Redirect to='/' />
         return (
 
-            <div id="login-page">
+            <div id="login-page" >
                 <Snackbar open={this.state.open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={this.handleClose}>
                     <Alert onClose={this.handleClose} severity={this.state.severity}>
                         {this.state.contentMsg}

@@ -11,6 +11,10 @@ import MuiAlert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress'
 import CameraIcon from '@material-ui/icons/Camera'
 import IconButton from '@material-ui/core/IconButton';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import SubjectRoundedIcon from '@material-ui/icons/SubjectRounded';
 
 
 function Alert(props) {
@@ -31,14 +35,14 @@ class index extends Component {
             severity: 'success',
             contentMsg: 'Welcome back ^^ Have a nice day!',
 
-            showMobile : 2
+            showMobile: 2
 
         }
     }
 
-    _onChangeShowMobile = (value )=>{
+    _onChangeShowMobile = (value) => {
         this.setState({
-            showMobile : value
+            showMobile: value
         })
     }
 
@@ -154,23 +158,23 @@ class index extends Component {
                         </div>
                     </div>) : null
                     }
-                    <Navi changePopup={this._changePopup} changeStatusControl={this._onChangeStatus} showMobile = {this.state.showMobile} />
+                    <Navi onChangeShowMobile={this._onChangeShowMobile} changePopup={this._changePopup} changeStatusControl={this._onChangeStatus} showMobile={this.state.showMobile} />
                     <div className="main-area">
-                        <MemoList changeStatusControl={this._onChangeStatus} showMobile = {this.state.showMobile} />
-                        <Memo idCate={this.state.idCate} statusControl={this.state.statusControl} changeStatusControl={this._onChangeStatus} />
+                        <MemoList onChangeShowMobile={this._onChangeShowMobile} changeStatusControl={this._onChangeStatus} showMobile={this.state.showMobile} />
+                        <Memo onChangeShowMobile={this._onChangeShowMobile} idCate={this.state.idCate} statusControl={this.state.statusControl} changeStatusControl={this._onChangeStatus} />
 
                     </div>
 
                 </div>
                 <div className="control-nav">
-                    <IconButton aria-label="A" onClick={()=>this.setState({showMobile : 1})} >
-                        <CameraIcon fontSize="inherit" />
+                    <IconButton aria-label="A" onClick={() => this.setState({ showMobile: 1 })} >
+                        <MenuOpenIcon fontSize="inherit" className={`control-nav__icon ${this.state.showMobile===1? 'active':''}`} />
                     </IconButton>
-                    <IconButton aria-label="A" onClick={()=>this.setState({showMobile : 2})} >
-                        <CameraIcon fontSize="inherit" />
+                    <IconButton aria-label="A" onClick={() => this.setState({ showMobile: 2 })} >
+                        <MenuBookIcon fontSize="inherit" className={`control-nav__icon ${this.state.showMobile===2? 'active':''}`} />
                     </IconButton>
-                    <IconButton aria-label="A" onClick={()=>this.setState({showMobile : 3})} >
-                        <CameraIcon fontSize="inherit" />
+                    <IconButton aria-label="A" onClick={() => this.setState({ showMobile: 3 })} >
+                        <SubjectRoundedIcon fontSize="inherit" className={`control-nav__icon ${this.state.showMobile===3? 'active':''}`} />
                     </IconButton>
                 </div>
             </React.Fragment>

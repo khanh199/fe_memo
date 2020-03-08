@@ -52,7 +52,7 @@ class MemoList extends Component {
             }).map((item, index) => {
                 if (item.title.includes(this.state.keySearch))
                     return (
-                        <div draggable={true} id={item._id} onDragStart={this._drag} onDragEnd={this._dragEnd} key={index} onClick={() => this._onChooseMemo(item._id)} className={`memo-item dropzone ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
+                        <div draggable={true} id={item._id} onDragStart={this._drag} onDragEnd={this._dragEnd} key={index} onClick={() => {this._onChooseMemo(item._id); this.props.onChangeShowMobile(3) }} className={`memo-item dropzone ${item._id === this.props.noteIndex ? 'active' : ''} ${item.clip ? 'clip' : ''}`}>
                             <p className="memo-item__title">{item.title.length < 30 ? item.title : item.title.slice(0, 30) + '...'}</p>
                             <div className="memo-item__info">
                                 <p className="memo-item__info--clock">

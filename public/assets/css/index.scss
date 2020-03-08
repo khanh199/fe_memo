@@ -20,7 +20,9 @@ button.MuiButton-root {
 .control-nav {
   width: 100vw;
   height: 50px;
-  background: #313f46;
+  background: #222f3e;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   display: none;
   justify-content: space-around;
   align-items: center;
@@ -1379,5 +1381,15 @@ a.waves-effect .waves-ripple {
   } 
   .control-nav {
     display: flex;
+    &__icon {
+      color: #8395a7;
+      &:hover {
+        color: #576574;
+      }
+      &.active {
+        color: #ecf0f1;
+      }
+    }
   }
+  
 }

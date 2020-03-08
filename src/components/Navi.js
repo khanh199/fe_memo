@@ -63,7 +63,7 @@ class Navi extends Component {
         return list.map((item, index) => (
             <div className="category-item-cover" key={index} onDragEnter={this._dragEnter} onDragLeave={this._dragLeave} onDrop={(e) => this._drop(e, item._id)} onDragOver={this._allowDrop}>
                 <Button
-                    onClick={() => this.props.setCategoryIndex(item._id)}
+                    onClick={() =>{ this.props.setCategoryIndex(item._id); this.props.onChangeShowMobile(2) }}
                     className={`${item._id === this.props.categoryIndex ? 'active' : ''} category-item`}
                 >
                     <img src="./assets/images/tags-item.svg" alt="item" />
@@ -97,13 +97,13 @@ class Navi extends Component {
 
                 <div className="category">
                     <Tooltip placement="top" title="Create new note">
-                        <Button className="create-new" onClick={() => this.props.changeStatusControl('new-note')}>
+                        <Button className="create-new" onClick={() => {this.props.changeStatusControl('new-note');this.props.onChangeShowMobile(3)}}>
                             <img src="./assets/images/plus-solid.svg" alt="+" />
                             <span className="createNew">Create New</span>
                         </Button>
                     </Tooltip>
                     <Button className={`menu-item ${this.props.categoryIndex === 0 ? 'active' : ''}`}
-                        onClick={() => this.props.setCategoryIndex(0)} onDragEnter={this._dragEnter} onDragLeave={this._dragLeave} onDrop={(e) => this._drop(e, null)} onDragOver={this._allowDrop}>
+                        onClick={() => {this.props.setCategoryIndex(0);this.props.onChangeShowMobile(2)}} onDragEnter={this._dragEnter} onDragLeave={this._dragLeave} onDrop={(e) => this._drop(e, null)} onDragOver={this._allowDrop}>
                         <img src="./assets/images/sticky-note-solid.svg" alt="all" />
                         <span>All Notes</span>
                         <div className="quantity">
@@ -128,7 +128,7 @@ class Navi extends Component {
                         <div className="cover-bar"></div>
                     </div>
                     <Tooltip placement="top" title="Clip notes">
-                        <Button className={`menu-item ${this.props.categoryIndex === 'clip' ? 'active' : ''}`} onClick={() => this.props.setCategoryIndex('clip')}>
+                        <Button className={`menu-item ${this.props.categoryIndex === 'clip' ? 'active' : ''}`} onClick={() => {this.props.setCategoryIndex('clip');this.props.onChangeShowMobile(2)}}>
                             <img src="./assets/images/paperclip-solid.svg" alt="all" />
                             <span>Clip</span>
                             <div className="quantity">
@@ -152,7 +152,7 @@ class Navi extends Component {
                     <Tooltip placement="top" title="Deleted notes are stored">
                         <Button
                             className={`menu-area__delete ${this.props.categoryIndex === 'trash' ? 'active' : ''}`}
-                            onClick={() => this.props.setCategoryIndex('trash')}>
+                            onClick={() => {this.props.setCategoryIndex('trash');this.props.onChangeShowMobile(2)}}>
                             <img height="15px" width="15px" src="./assets/images/trash-solid.svg" alt="trash" />
                             Recycle bin
                         </Button>
