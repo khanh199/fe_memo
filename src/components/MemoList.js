@@ -85,7 +85,7 @@ class MemoList extends Component {
         let lsNotes = this.props.notes;
         let shows = this._showMemoItem(lsNotes)
         return (
-            <div className="title-area">
+            <div className={`${this.props.showMobile === 2 ? 'active':''} title-area`}>
                 <div className="search-box">
                     <input className="search"
                         placeholder="キーワードを入力" name="keySearch"

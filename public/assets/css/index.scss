@@ -17,6 +17,23 @@ button.MuiButton-root {
   font-family: $FuturaPT !important;
 }
 
+.control-nav {
+  width: 100vw;
+  height: 50px;
+  background: #313f46;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  .nav-item {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: 269px auto;
@@ -77,10 +94,12 @@ button.MuiButton-root {
     }
   }
 
+ 
+
   .menu-area {
     // position: absolute;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     background: #313f46 0% 0% no-repeat padding-box;
     opacity: 1;
     padding-left: 15px;
@@ -723,7 +742,7 @@ button.MuiButton-root {
   }
 }
 #login-page {
-  background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png);
+  background-image: url(https://pixabay.com/get/55e6d7414f53a514f6d1867dda6d49214b6ac3e45659724f742a7ed09f/fog-3622519_1920.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1334,4 +1353,31 @@ button.MuiButton-root {
 /* Firefox Bug: link not triggered */
 a.waves-effect .waves-ripple {
   z-index: -1;
+}
+
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    grid-template-columns: 100% auto;
+  }
+  .menu-area {
+    display: none !important;
+  }
+  .menu-area.active {
+    display: block !important;
+  }
+  .title-area {
+    display: none !important;
+  }
+  .title-area.active {
+    display: block !important;
+  }
+  .main-area {
+    grid-template-columns: 100% auto !important;
+  }
+  .wrapper {
+    height: calc(100vh - 50px);
+  } 
+  .control-nav {
+    display: flex;
+  }
 }

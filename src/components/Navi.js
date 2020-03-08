@@ -92,7 +92,7 @@ class Navi extends Component {
 
         let categories = this.props.categories
         return (
-            <div className="menu-area">
+            <div className={`menu-area ${this.props.showMobile === 1? 'active' : ''}`}>
                 <Dialog actionWhenOk={() => this.props.deleteCategory(this.state.idCateDelete)} textMsg={this.state.textMsg} textTitleDialog={this.state.textTitleDialog} handleClose={this._handleCloseDialog} open={this.state.openDialog} />
 
                 <div className="category">

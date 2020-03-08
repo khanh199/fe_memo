@@ -9,6 +9,9 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress'
+import CameraIcon from '@material-ui/icons/Camera'
+import IconButton from '@material-ui/core/IconButton';
+
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -28,8 +31,17 @@ class index extends Component {
             severity: 'success',
             contentMsg: 'Welcome back ^^ Have a nice day!',
 
+            showMobile : 2
+
         }
     }
+
+    _onChangeShowMobile = (value )=>{
+        this.setState({
+            showMobile : value
+        })
+    }
+
     _changePopup = (status, idCate = '', nameCate = '') => {
         this.setState({
             popup: status,
@@ -91,63 +103,77 @@ class index extends Component {
 
     render() {
         return (
-            <div className="wrapper">
-                <LinearProgress style={{ position: "absolute", width: "100%", zIndex: '999', height: '2px', display: this.props.progress ? 'block' : 'none' }} />
+            <React.Fragment>
+                <div className="wrapper">
+                    <LinearProgress style={{ position: "absolute", width: "100%", zIndex: '999', height: '2px', display: this.props.progress ? 'block' : 'none' }} />
 
-                <Snackbar open={this.state.open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={this.handleClose}>
-                    <Alert onClose={this.handleClose} severity={this.state.severity}>
-                        {this.state.contentMsg}
-                    </Alert>
-                </Snackbar>
+                    <Snackbar open={this.state.open} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={6000} onClose={this.handleClose}>
+                        <Alert onClose={this.handleClose} severity={this.state.severity}>
+                            {this.state.contentMsg}
+                        </Alert>
+                    </Snackbar>
 
-                {this.state.popup === 'new-cate' ? (<div className="popup">
-                    <div className="popup__box">
-                        <div className="popup__box__title">
-                            Create category
+                    {this.state.popup === 'new-cate' ? (<div className="popup">
+                        <div className="popup__box">
+                            <div className="popup__box__title">
+                                Create category
                         </div>
-                        <div className="popup__box__text-input">
+                            <div className="popup__box__text-input">
 
-                            {!this.state.errTextInput ?
-                                (<TextField name="nameCate" autoFocus value={this.state.nameCate} label="Name category" onChange={(e) => this._onChangeText(e)} />)
-                                :
-                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} value={this.state.nameCate} label="Name category" onChange={(e) => this._onChangeText(e)} />)
-                            }
+                                {!this.state.errTextInput ?
+                                    (<TextField name="nameCate" autoFocus value={this.state.nameCate} label="Name category" onChange={(e) => this._onChangeText(e)} />)
+                                    :
+                                    (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} value={this.state.nameCate} label="Name category" onChange={(e) => this._onChangeText(e)} />)
+                                }
 
+                            </div>
+                            <div className="popup__box__control">
+                                <Button onClick={() => this._changePopup('', '')}>Cancel</Button>
+                                <Button onClick={() => this._onSaveNewCate()}>Save</Button>
+                            </div>
                         </div>
-                        <div className="popup__box__control">
-                            <Button onClick={() => this._changePopup('', '')}>Cancel</Button>
-                            <Button onClick={() => this._onSaveNewCate()}>Save</Button>
+                    </div>) : null
+                    }
+                    {this.state.popup === 'edit-cate' ? (<div className="popup">
+                        <div className="popup__box">
+                            <div className="popup__box__title">
+                                Rename category
                         </div>
+                            <div className="popup__box__text-input">
+                                {!this.state.errTextInput ?
+                                    (<TextField name="nameCate" autoFocus label="Name category" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />)
+                                    :
+                                    (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} label="Name category" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />)
+                                }
+
+                            </div>
+                            <div className="popup__box__control">
+                                <Button onClick={() => this._changePopup('', '')}>Cancel</Button>
+                                <Button onClick={() => this._onSaveEditCate()}>Save</Button>
+                            </div>
+                        </div>
+                    </div>) : null
+                    }
+                    <Navi changePopup={this._changePopup} changeStatusControl={this._onChangeStatus} showMobile = {this.state.showMobile} />
+                    <div className="main-area">
+                        <MemoList changeStatusControl={this._onChangeStatus} showMobile = {this.state.showMobile} />
+                        <Memo idCate={this.state.idCate} statusControl={this.state.statusControl} changeStatusControl={this._onChangeStatus} />
+
                     </div>
-                </div>) : null
-                }
-                {this.state.popup === 'edit-cate' ? (<div className="popup">
-                    <div className="popup__box">
-                        <div className="popup__box__title">
-                            Rename category
-                        </div>
-                        <div className="popup__box__text-input">
-                            {!this.state.errTextInput ?
-                                (<TextField name="nameCate" autoFocus label="Name category" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />)
-                                :
-                                (<TextField name="nameCate" autoFocus error helperText={this.state.errTextInput} label="Name category" value={this.state.nameCate} onChange={(e) => this._onChangeText(e)} />)
-                            }
-
-                        </div>
-                        <div className="popup__box__control">
-                            <Button onClick={() => this._changePopup('', '')}>Cancel</Button>
-                            <Button onClick={() => this._onSaveEditCate()}>Save</Button>
-                        </div>
-                    </div>
-                </div>) : null
-                }
-                <Navi changePopup={this._changePopup} changeStatusControl={this._onChangeStatus} />
-                <div className="main-area">
-                    <MemoList changeStatusControl={this._onChangeStatus} />
-                    <Memo idCate={this.state.idCate} statusControl={this.state.statusControl} changeStatusControl={this._onChangeStatus} />
 
                 </div>
-            </div>
+                <div className="control-nav">
+                    <IconButton aria-label="A" onClick={()=>this.setState({showMobile : 1})} >
+                        <CameraIcon fontSize="inherit" />
+                    </IconButton>
+                    <IconButton aria-label="A" onClick={()=>this.setState({showMobile : 2})} >
+                        <CameraIcon fontSize="inherit" />
+                    </IconButton>
+                    <IconButton aria-label="A" onClick={()=>this.setState({showMobile : 3})} >
+                        <CameraIcon fontSize="inherit" />
+                    </IconButton>
+                </div>
+            </React.Fragment>
         )
     }
 }
