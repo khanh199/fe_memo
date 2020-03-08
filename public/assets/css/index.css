@@ -1416,6 +1416,10 @@ a.waves-effect .waves-ripple {
       .control-nav__icon:hover {
         color: #576574; }
       .control-nav__icon.active {
-        color: #ecf0f1; } }
+        color: #ecf0f1; }
+
+  .alt-2 {
+    right: 10px;
+    top: -20px; } }
 
 /*# sourceMappingURL=index.css.map */

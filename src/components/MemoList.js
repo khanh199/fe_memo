@@ -61,7 +61,7 @@ class MemoList extends Component {
                                 </p>
                                 {item.category ? (<p className="memo-item__info--cate">
                                     <img height="12px" className="tag-item-icon" src="./assets/images/tags-solid-dark.svg" alt="tags" />
-                                    <span>{item.category.length < 15 ? item.category.name : item.category.name.slice(0, 15) + '...'}</span>
+                                    <span>{item.category.name.length < 15 ? item.category.name : item.category.name.slice(0, 15) + '...'}</span>
                                 </p>) : null}
                             </div>
                             <div className="clip-memo-item">
