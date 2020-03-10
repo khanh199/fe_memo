@@ -144,6 +144,7 @@ export const actEditCategory = (data) => {
         return callAPI(`categories/edit/${data.id}`, 'PATCH', data)
             .then((res) => {
                 dispatch(actGetCategoriesRequest())
+                dispatch(actGetNotesRequest())
                 dispatch(actSetProgressFalse())
             }).catch(e => dispatch(actSetProgressFalse()))
     }
